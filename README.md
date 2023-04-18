@@ -42,7 +42,7 @@ See the section about
 [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more
 information.
 
-_暂时将 build 产生的根目录设为"./", 如此可使 build 里的 intex.html 能够直接在本地运
-行_
+_暂时将 build 产生的根目录设为"./", 如此可使 build 里的 intex.html 能够直接在本地运行
+_
 
 ## 其余的指令暂时弃用
