@@ -17,7 +17,7 @@
 - 好友列表是硬编码的, 存储在 src\components\FriendList\test.json
 - 聊天记录是本地存储的, 初始值硬编码, 存储在 src\components\Chat\test.json
 - userID 与用户昵称的对应是硬编码的, 存储在 src\assets\userID\test.json
-- 初步支持公式输入, \$...\$ 与 \$\$...\$\$ 两种形式
+- 初步支持公式输入, `$...$ 与 $$...$$` 两种形式
 
 ### 23.4.18 2
 
@@ -76,7 +76,6 @@ See the section about
 [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more
 information.
 
-_暂时将 build 产生的根目录设为"./", 如此可使 build 里的 intex.html 能够直接在本地运
-行_
+_暂时将 build 产生的根目录设为"./", 如此可使 build 里的 intex.html 能够直接在本地运行_
 
 ## 其余的指令暂时弃用
