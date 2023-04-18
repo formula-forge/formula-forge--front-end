@@ -17,6 +17,7 @@
 - 好友列表是硬编码的, 存储在 src\components\FriendList\test.json
 - 聊天记录是本地存储的, 初始值硬编码, 存储在 src\components\Chat\test.json
 - userID 与用户昵称的对应是硬编码的, 存储在 src\assets\userID\test.json
+- 初步支持公式输入, $...$ 与 $$...$$ 两种形式
 
 ## 下面是 React 开发自带的 Available Scripts
 
