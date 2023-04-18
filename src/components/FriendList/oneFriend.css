@@ -5,8 +5,7 @@
   margin-right: 10px;
 }
 .one-friend {
-  display: flex;
-  align-items: center;
+  margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 100px;
+  margin-left: -10px;
 }

@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "sender": "123",
+      "receiver": "456",
+      "content": "Hello Mary, how are you today?",
+      "timestamp": "2018-01-01 12:00:00"
+    },
+    {
+      "sender": "456",
+      "receiver": "123",
+      "content": "I'm fine, thanks. And you?",
+      "timestamp": "2018-01-01 12:00:01"
+    },
+    {
+      "sender": "123",
+      "receiver": "456",
+      "content": "I'm fine too. See you later!",
+      "timestamp": "2018-01-01 12:00:02"
+    }
+  ]
+}

@@ -1,41 +1,17 @@
 {
   "friends": [
     {
-      "name": "John",
-      "userID": "12345",
+      "userID": "123",
       "nickname": "John literature",
-      "avatar": "1.png"
+      "class": "1"
     },
     {
-      "name": "Tom",
-      "userID": "67890",
-      "nickname": "my best friend",
-      "avatar": "2.png"
+      "userID": "456",
+      "nickname": "my sister Mary",
+      "class": "2"
     },
     {
-      "name": "Mary",
-      "userID": "13579",
-      "nickname": "my sister"
-    },
-    {
-      "name": "Jane",
-      "userID": "24680",
-      "nickname": "lovely"
-    },
-    {
-      "name": "Peter",
-      "userID": "98765",
-      "nickname": "Peter Phisics"
-    },
-    {
-      "name": "Jack",
-      "userID": "54321",
-      "nickname": "Jack Math"
-    },
-    {
-      "name": "Lily",
-      "userID": "87654",
-      "nickname": "Lily English"
+      "userID": "789"
     }
   ]
 }

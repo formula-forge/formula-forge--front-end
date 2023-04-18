@@ -1,14 +1,17 @@
 import React from "react";
 import "./oneFriend.css";
+import UserAvatar from "../Users/UserAvatar.js";
 
 function OneFriend(props) {
+  const handleClick = () => {
+    props.setTarget(props.userID);
+    props.setTargetType("friend");
+    console.log(props.userID);
+  };
   return (
-    <div className="one-friend">
-      <img
-        src={`https://pic1.zhimg.com/v2-1d2a27a4f0ad11146f6503a2dae7c41b.jpg?source=6a64a727`}
-        className="friend-avatar"
-      ></img>
-      <p style={{ display: "inline-block", "margin-left": "10px" }}>{props.name}</p>
+    <div className="one-friend" onClick={handleClick}>
+      <UserAvatar type="list-avatar" userID={props.userID} />
+      <p style={{ display: "inline-block", marginLeft: "10px" }}>{props.name}</p>
     </div>
   );
 }

@@ -1,0 +1,7 @@
+.message-box {
+  border-bottom: 2px solid gainsboro;
+  border-top: 2px solid gainsboro;
+  height: 500px;
+  padding: 5px;
+  overflow: auto;
+}
