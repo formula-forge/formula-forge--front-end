@@ -25,6 +25,7 @@ function App() {
         </nav>
       </BrowserRouter>
       {targetType === "friend" ? <Chat friend={target} /> : null}
+      {console.log("changed")}
     </div>
   );
 }

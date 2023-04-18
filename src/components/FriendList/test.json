@@ -12,6 +12,13 @@
     },
     {
       "userID": "789"
+    },
+    {
+      "userID": "000",
+      "nickname": "my brother"
+    },
+    {
+      "userID": "001"
     }
   ]
 }
