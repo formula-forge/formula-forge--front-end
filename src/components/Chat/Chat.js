@@ -17,6 +17,7 @@ const Chat = (props) => {
   const [messages, setMessages] = useState(messagesData);
   const [socket, setSocket] = useState(null);
   const [nickname, setNickname] = useState(null);
+  const [connecting, setConnecting] = useState(false); //仅作为连接的触发器, 它被修改时重新连接
   const chatRef = useRef(null);
   useEffect(() => {
     setNickname(testFriend.friends.find((item) => item.userID === friend).nickname);
@@ -29,11 +30,24 @@ const Chat = (props) => {
     // 创建 WebSocket 连接
     const newSocket = new WebSocket("ws://localhost:8080");
     setSocket(newSocket);
-    // 结束时关闭 WebSocket 连接
+
+    newSocket.onopen = () => {
+      // 连接成功后发送消息
+      const message = {
+        type: "connect-to-friend",
+        clientID: user,
+        token: user, //用于验证身份的token, 由后端生成, 此处为测试用
+        friendID: friend,
+      };
+      newSocket.send(JSON.stringify(message));
+      console.log("connected");
+    };
+    // 组件停止渲染时关闭 WebSocket 连接
     return () => {
+      console.log("disconnected");
       newSocket.close();
     };
-  }, [friend]); //当friend改变时重新录入聊天记录
+  }, [user, friend, connecting]); //当friend改变时重新录入聊天记录
 
   useEffect(() => {
     if (!socket) {
@@ -43,8 +57,14 @@ const Chat = (props) => {
 
     // 监听 WebSocket 连接的消息事件
     const handleMessage = (event) => {
-      const message = JSON.parse(event.data); //将接收到的字符串转换为json对象
-      setMessages([...messages, message]);
+      console.log(event.data);
+      try {
+        const message = JSON.parse(event.data); //将接收到的字符串转换为json对象
+        setMessages([...messages, message]);
+      } catch (e) {
+        console.log("接受WebSocket信息出错, 错误信息: " + e);
+        console.log(event.data);
+      }
     };
 
     socket.addEventListener("message", handleMessage);
@@ -68,7 +88,8 @@ const Chat = (props) => {
     script.onload = () => {
       // 加载完成后设置MathJax配置
       window.MathJax.Hub.Config({
-        // 支持行内公式
+        // 支持行内公式使用$...$包裹, 默认为\\(...\\)包裹
+        // 行级公式默认为$$...$$包裹
         tex2jax: {
           inlineMath: [["$", "$"]],
         },
@@ -92,27 +113,27 @@ const Chat = (props) => {
     const formattedDateTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     return formattedDateTime;
   }
+  // 处理发送消息
   const handleSubmit = (inputValue) => {
-    const formattedDateTime = makeTime();
-    console.log(formattedDateTime); // 输出类似于 "2023-04-16 17:12:25" 的字符串
+    const formattedDateTime = makeTime(); // 输出类似于 "2023-04-16 17:12:25" 的字符串
 
     // 检查 WebSocket 连接状态是否为已连接
     if (socket.readyState === WebSocket.OPEN) {
+      // 生成一条消息
       const message = {
+        type: "message",
+        sender: user,
+        receiver: friend,
         content: inputValue,
         timestamp: formattedDateTime,
-        sender: user,
       };
+      setMessages([...messages, message]); //将消息添加到聊天记录中
       socket.send(JSON.stringify(message));
+      return true;
     } else {
-      console.log("WebSocket 连接状态未完成，无法发送消息");
-      // 模拟发送消息
-      const message = {
-        content: inputValue,
-        timestamp: formattedDateTime,
-        sender: user,
-      };
-      setMessages([...messages, message]);
+      alert("WebSocket 连接状态未完成，无法发送消息");
+      setConnecting(true);
+      return false;
     }
   };
   // 用于渲染一条消息
