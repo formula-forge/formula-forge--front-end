@@ -5,30 +5,24 @@ class FriendDataService {
     return http.get("/friends");
   }
 
-  get(id) {
-    return http.get(`/friends/${id}`);
+  getByClass(friendClass) {
+    return http.get(`/friends?class=${friendClass}`);
   }
 
-  create(data) {
-    return http.post("/friends", data);
+  postNewFriend(freindId, message) {
+    return http.post(`/friends/application?friendId=${freindId}`, message);
   }
 
-  update(id, data) {
-    return http.put(`/friends/${id}`, data);
+  getNewFriend() {
+    return http.get(`/friends/application`);
   }
 
-  delete(id) {
-    return http.delete(`/friends/${id}`);
+  deleteFriend(friendId) {
+    return http.delete(`/friends/${friendId}`);
   }
 
-  /* // This is not used in the app
-  deleteAll() {
-    return http.delete(`/friends`);
-  } 
-  */
-
-  findByTitle(title) {
-    return http.get(`/friends?title=${title}`);
+  patchFriend(friendId, message) {
+    return http.patch(`/friends/${friendId}`, message);
   }
 }
 
