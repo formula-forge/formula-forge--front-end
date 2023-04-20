@@ -5,8 +5,9 @@ import OneFriend from "./oneFriend";
 import { nanoid } from "nanoid";
 
 import testID from "../../assets/userID/test.json";
-import { TEST } from "../../test";
 const idData = testID.userID;
+
+const friendsData = test.friends;
 
 function FriendList(props) {
   const [friends, setFriends] = useState([]);
@@ -14,41 +15,20 @@ function FriendList(props) {
 
   // 首次渲染时，读取好友列表
   useEffect(() => {
-    let friendsData;
-    if (TEST) {
-      friendsData = test.friends;
-      let tmpFriendsClass = {};
-      setFriends(
-        friendsData.map((friend) => {
-          tmpFriendsClass = {
-            ...tmpFriendsClass,
-            [friend.class ? friend.class : "我的好友"]: false, //默认不展开
-          };
-          return friend.class ? friend : { ...friend, class: "我的好友" }; // 默认组为"我的好友"
-        })
-      );
-      setFriendsClass(tmpFriendsClass);
-    } else
-      FriendDataService.getAll()
-        .then((res) => {
-          friendsData = res.entries;
-          console.log("获取好友列表成功");
-          let tmpFriendsClass = {};
-          setFriends(
-            friendsData.map((friend) => {
-              tmpFriendsClass = {
-                ...tmpFriendsClass,
-                [friend.class ? friend.class : "我的好友"]: false, //默认不展开
-              };
-              return friend.class ? friend : { ...friend, class: "我的好友" }; // 默认组为"我的好友"
-            })
-          );
-          setFriendsClass(tmpFriendsClass);
-        })
-        .catch((err) => {
-          console.log("获取好友列表错误: " + err);
-          return;
-        });
+    let tmpFriendsClass = {};
+    friendsData.forEach((friend) => {
+      tmpFriendsClass = {
+        ...tmpFriendsClass,
+        [friend.class ? friend.class : "我的好友"]: false, //默认不展开
+      };
+    });
+    setFriendsClass(tmpFriendsClass);
+    // 默认组为"我的好友"
+    setFriends(
+      friendsData.map((friend) =>
+        friend.class ? friend : { ...friend, class: "我的好友" }
+      )
+    );
   }, []);
   // 渲染好友列表
   const allFriends = Object.keys(friendsClass).map((friendClass) => {
