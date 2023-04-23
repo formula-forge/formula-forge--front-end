@@ -25,5 +25,5 @@ class FriendDataService {
     return http.patch(`/friends/${friendId}`, message);
   }
 }
-
+// eslint-disable-next-line
 export default new FriendDataService();

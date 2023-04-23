@@ -1,12 +1,7 @@
 import FriendDataService from "../../services/friend-service";
 import React, { useState, useEffect } from "react";
-import test from "./test.json";
 import OneFriend from "./oneFriend";
 import { nanoid } from "nanoid";
-
-import testID from "../../assets/userID/test.json";
-import { TEST } from "../../test";
-const idData = testID.userID;
 
 function FriendList(props) {
   const [friends, setFriends] = useState([]);
@@ -15,40 +10,28 @@ function FriendList(props) {
   // 首次渲染时，读取好友列表
   useEffect(() => {
     let friendsData;
-    if (TEST) {
-      friendsData = test.friends;
-      let tmpFriendsClass = {};
-      setFriends(
-        friendsData.map((friend) => {
-          tmpFriendsClass = {
-            ...tmpFriendsClass,
-            [friend.class ? friend.class : "我的好友"]: false, //默认不展开
-          };
-          return friend.class ? friend : { ...friend, class: "我的好友" }; // 默认组为"我的好友"
-        })
-      );
-      setFriendsClass(tmpFriendsClass);
-    } else
-      FriendDataService.getAll()
-        .then((res) => {
-          friendsData = res.entries;
-          console.log("获取好友列表成功");
-          let tmpFriendsClass = {};
-          setFriends(
-            friendsData.map((friend) => {
-              tmpFriendsClass = {
-                ...tmpFriendsClass,
-                [friend.class ? friend.class : "我的好友"]: false, //默认不展开
-              };
-              return friend.class ? friend : { ...friend, class: "我的好友" }; // 默认组为"我的好友"
-            })
-          );
-          setFriendsClass(tmpFriendsClass);
-        })
-        .catch((err) => {
-          console.log("获取好友列表错误: " + err);
-          return;
-        });
+    FriendDataService.getAll()
+      .then((res) => {
+        friendsData = res.data.entries;
+        let tmpFriendsClass = {};
+        setFriends(
+          friendsData.map((friend) => {
+            tmpFriendsClass = {
+              ...tmpFriendsClass,
+              [friend.classification ? friend.classification : "我的好友"]: false, //默认不展开
+            };
+            return friend.classification
+              ? friend
+              : { ...friend, classification: "我的好友" }; // 默认组为"我的好友"
+          })
+        );
+        setFriendsClass(tmpFriendsClass);
+        console.log("获取好友列表成功: " + JSON.stringify(friendsData));
+      })
+      .catch((err) => {
+        console.log("获取好友列表错误: " + err);
+        return;
+      });
   }, []);
   // 渲染好友列表
   const allFriends = Object.keys(friendsClass).map((friendClass) => {
@@ -69,17 +52,16 @@ function FriendList(props) {
         <div>
           {friendsClass[friendClass]
             ? friends
-                .filter((friend) => friend.class === friendClass)
+                .filter((friend) => friend.classification === friendClass)
                 .map((friend) => {
                   return (
                     <OneFriend
                       key={nanoid()}
-                      name={
-                        friend.nickname ? friend.nickname : idData[friend.userID]
-                      }
+                      name={friend.nickname ? friend.nickname : friend.name}
                       avatar={friend.avatar}
-                      userID={friend.userID}
+                      userId={friend.userId}
                       setTarget={props.setTarget}
+                      setTargetName={props.setTargetName}
                       setTargetType={props.setTargetType}
                     />
                   );

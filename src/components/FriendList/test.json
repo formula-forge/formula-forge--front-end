@@ -1,24 +1,24 @@
 {
   "friends": [
     {
-      "userID": "123",
+      "userId": "65",
       "nickname": "John literature",
       "class": "1"
     },
     {
-      "userID": "456",
+      "userId": "77",
       "nickname": "my sister Mary",
       "class": "2"
     },
     {
-      "userID": "789"
+      "userId": "789"
     },
     {
-      "userID": "000",
+      "userId": "000",
       "nickname": "my brother"
     },
     {
-      "userID": "001"
+      "userId": "001"
     }
   ]
 }

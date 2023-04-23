@@ -4,13 +4,14 @@ import UserAvatar from "../Users/UserAvatar.js";
 
 function OneFriend(props) {
   const handleClick = () => {
-    props.setTarget(props.userID);
+    props.setTarget(props.userId);
     props.setTargetType("friend");
-    console.log(props.userID);
+    props.setTargetName(props.name);
+    console.log(props.userId);
   };
   return (
     <div className="one-friend" onClick={handleClick}>
-      <UserAvatar type="list-avatar" userID={props.userID} />
+      <UserAvatar type="list-avatar" userId={props.userId} />
       <p style={{ display: "inline-block", marginLeft: "10px" }}>{props.name}</p>
     </div>
   );

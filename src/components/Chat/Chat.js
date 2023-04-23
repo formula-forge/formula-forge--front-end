@@ -4,13 +4,10 @@ import UseAvatar from "../Users/UserAvatar";
 import "./Chat.css";
 import Typebox from "./Typebox";
 
-import testID from "../../assets/userID/test.json";
-import testFriend from "../FriendList/test.json";
-const idData = testID.userID;
-
-function makeTime() {
+function makeTime(timestampStr) {
   //生成时间字符串
-  const now = new Date();
+  const timestamp = Number(timestampStr); // 将时间戳字符串转换为数字类型的时间戳
+  const now = new Date(timestamp); // 使用Date对象将时间戳转换为日期对象
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
@@ -24,24 +21,24 @@ function makeTime() {
 
 // 这是与单个好友聊天的页面
 const Chat = (props) => {
-  const user = props.user ? props.user : "123";
-  const friend = props.friend;
+  const user = Number(props.user);
+  const friend = Number(props.friend);
+  const nickname = props.nickname;
   const newMessage = props.newMessage;
+  const [messages, setMessages] = useState([]);
+  const chatRef = useRef(null);
   const handleSubmit = (inputValue) => {
     const message = {
-      type: "text",
-      sender: friend,
+      target: Number(friend),
       group: null,
+      type: "text",
       content: inputValue,
-      timestamp: makeTime(),
+      timestamp: Date.now(),
     };
-    props.handleSubmit(message);
+    setMessages((m) => [...m, message]);
+    if (props.handleSubmit(message)) return true;
   };
-  const [messages, setMessages] = useState([]);
-  const [nickname, setNickname] = useState(null);
-  const chatRef = useRef(null);
   useEffect(() => {
-    setNickname(testFriend.friends.find((item) => item.userID === friend).nickname);
     // 从本地存储中读取聊天记录
     const storedMessages = localStorage.getItem(`messages:${user}-${friend}`);
     if (storedMessages) {
@@ -92,7 +89,7 @@ const Chat = (props) => {
             display: "inline-block",
           }}
         >
-          {sender !== user && nickname ? nickname : idData[sender]}: {content}
+          {nickname}: {content}
         </p>
       </div>
     );
@@ -105,28 +102,33 @@ const Chat = (props) => {
         border: "2px solid black",
       }}
     >
-      <h3>
-        {(nickname ? nickname : idData[props.friend]) + "(" + props.friend + ")"}
-      </h3>
+      <h3>{nickname + "(" + props.friend + ")"}</h3>
       <div className="message-box" ref={chatRef}>
         {messages.map((message, index) => {
           // 检测日期是否相同
-          if (message.timestamp.substring(0, 10) !== makeTime().substring(0, 10)) {
-            return oneMessage(message.timestamp, message.sender, message.content);
+          if (
+            makeTime(message.timestamp).substring(0, 10) !==
+            makeTime(Date.now()).substring(0, 10)
+          ) {
+            return oneMessage(
+              makeTime(message.timestamp),
+              message.target,
+              message.content
+            );
           } else {
             if (
               index === 0 || //防止数组越界
-              message.timestamp.substring(0, 15) !== //检测分钟的十位是否相同
-                messages[index - 1].timestamp.substring(0, 15)
+              makeTime(message.timestamp).substring(0, 15) !== //检测分钟的十位是否相同
+                makeTime(messages[index - 1].timestamp).substring(0, 15)
             )
               return oneMessage(
                 // 时间不同则显示时间的时分秒
-                message.timestamp.substring(11, 19),
-                message.sender,
+                makeTime(message.timestamp).substring(11, 19),
+                message.target,
                 message.content
               );
             // 时间相同则不显示时间
-            else return oneMessage("", message.sender, message.content);
+            else return oneMessage("", message.target, message.content);
           }
         })}
       </div>

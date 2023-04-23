@@ -5,7 +5,8 @@ function UseAvatar(props) {
   return (
     <div
       onClick={() => {
-        alert(props.userID);
+        if (props.type === "list-avatar") return;
+        alert(props.userId);
       }}
       style={{ display: "inline-block" }}
     >
