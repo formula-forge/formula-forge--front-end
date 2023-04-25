@@ -7,7 +7,6 @@ function OneFriend(props) {
     props.setTarget(props.userId);
     props.setTargetType("friend");
     props.setTargetName(props.name);
-    console.log(props.userId);
   };
   return (
     <div className="one-friend" onClick={handleClick}>

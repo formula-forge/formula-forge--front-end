@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./UserAvatar.css";
+import UserContext from "./../../Context";
 
-function UseAvatar(props) {
+function UserAvatar(props) {
+  const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
   return (
     <div
       onClick={() => {
         if (props.type === "list-avatar") return;
-        alert(props.userId);
+        setGetUserInfoId(props.userId);
+        setUserInfoDisplay(true);
       }}
       style={{ display: "inline-block" }}
     >
@@ -23,4 +26,4 @@ function UseAvatar(props) {
   );
 }
 
-export default UseAvatar;
+export default UserAvatar;

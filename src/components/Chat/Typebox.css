@@ -1,0 +1,23 @@
+.form {
+  height: 30%;
+  padding: 30px;
+}
+.chat-typebox-area {
+  width: 100%;
+  height: auto;
+  min-height: 60px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+  background-color: #9797976b;
+  color: #333;
+}
+
+.chat-typebox-area:focus {
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

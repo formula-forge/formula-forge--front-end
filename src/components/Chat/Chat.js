@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { nanoid } from "nanoid";
-import UseAvatar from "../Users/UserAvatar";
+import UserAvatar from "../Users/UserAvatar";
 import "./Chat.css";
 import Typebox from "./Typebox";
 
@@ -22,6 +22,7 @@ function makeTime(timestampStr) {
 // 这是与单个好友聊天的页面
 const Chat = (props) => {
   const user = Number(props.user);
+  const myname = props.myname;
   const friend = Number(props.friend);
   const nickname = props.nickname;
   const newMessage = props.newMessage;
@@ -29,21 +30,22 @@ const Chat = (props) => {
   const chatRef = useRef(null);
   const handleSubmit = (inputValue) => {
     const message = {
-      target: Number(friend),
+      target: Number(user),
       group: null,
       type: "text",
       content: inputValue,
       timestamp: Date.now(),
     };
+    console.log("user: " + user + " friend: " + friend);
     setMessages((m) => [...m, message]);
-    if (props.handleSubmit(message)) return true;
+    if (props.handleSubmit({ ...message, target: Number(friend) })) return true;
   };
   useEffect(() => {
     // 从本地存储中读取聊天记录
     const storedMessages = localStorage.getItem(`messages:${user}-${friend}`);
     if (storedMessages) {
       setMessages(JSON.parse(storedMessages));
-    }
+    } else setMessages([]);
     // 从网络中获取聊天记录
     // TODO
   }, [user, friend]); //当friend改变时重新录入聊天记录
@@ -53,6 +55,7 @@ const Chat = (props) => {
     setMessages((m) => [...m, newMessage]);
   }, [newMessage]);
   useEffect(() => {
+    if (!messages.length) return; // 如果没有聊天记录则不渲染
     // 将聊天记录保存到本地存储
     localStorage.setItem(`messages:${user}-${friend}`, JSON.stringify(messages));
     // 渲染数学公式
@@ -76,63 +79,63 @@ const Chat = (props) => {
       // 滚动到聊天记录的底部
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     };
-  }, [messages, user, friend]);
+  }, [messages]);
 
   // 用于渲染一条消息
   function oneMessage(time, sender, content) {
     return (
       <div key={nanoid()}>
-        <p>{time}</p>
-        <UseAvatar userID={sender} type={"chat-avatar"} />
-        <p
-          style={{
-            display: "inline-block",
-          }}
-        >
-          {nickname}: {content}
-        </p>
+        <p className="time">{time}</p>
+        {sender == friend ? (
+          <div className="friend-saying">
+            <UserAvatar userId={sender} type={"chat-avatar"} />
+            <div className="saying">{content}</div>
+          </div>
+        ) : (
+          <div className="my-saying">
+            <div className="saying">{content}</div>
+            <UserAvatar userId={sender} type={"chat-avatar"} />
+          </div>
+        )}
       </div>
     );
   }
+  const height = window.innerHeight;
   return (
-    <div
-      style={{
-        marginLeft: "10px",
-        padding: "10px 30px 10px 30px",
-        border: "2px solid black",
-      }}
-    >
+    <div className="chat-box">
       <h3>{nickname + "(" + props.friend + ")"}</h3>
-      <div className="message-box" ref={chatRef}>
-        {messages.map((message, index) => {
-          // 检测日期是否相同
-          if (
-            makeTime(message.timestamp).substring(0, 10) !==
-            makeTime(Date.now()).substring(0, 10)
-          ) {
-            return oneMessage(
-              makeTime(message.timestamp),
-              message.target,
-              message.content
-            );
-          } else {
+      <div className="message-box">
+        <div className="chat-history" ref={chatRef}>
+          {messages.map((message, index) => {
+            // 检测日期是否相同
             if (
-              index === 0 || //防止数组越界
-              makeTime(message.timestamp).substring(0, 15) !== //检测分钟的十位是否相同
-                makeTime(messages[index - 1].timestamp).substring(0, 15)
-            )
+              makeTime(message.timestamp).substring(0, 10) !==
+              makeTime(Date.now()).substring(0, 10)
+            ) {
               return oneMessage(
-                // 时间不同则显示时间的时分秒
-                makeTime(message.timestamp).substring(11, 19),
+                makeTime(message.timestamp),
                 message.target,
                 message.content
               );
-            // 时间相同则不显示时间
-            else return oneMessage("", message.target, message.content);
-          }
-        })}
+            } else {
+              if (
+                index === 0 || //防止数组越界
+                makeTime(message.timestamp).substring(0, 15) !== //检测分钟的十位是否相同
+                  makeTime(messages[index - 1].timestamp).substring(0, 15)
+              )
+                return oneMessage(
+                  // 时间不同则显示时间的时分秒
+                  makeTime(message.timestamp).substring(11, 19),
+                  message.target,
+                  message.content
+                );
+              // 时间相同则不显示时间
+              else return oneMessage("", message.target, message.content);
+            }
+          })}
+        </div>
+        <Typebox handleSubmit={handleSubmit} />
       </div>
-      <Typebox handleSubmit={handleSubmit} />
     </div>
   );
 };

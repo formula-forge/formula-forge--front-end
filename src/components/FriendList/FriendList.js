@@ -2,6 +2,7 @@ import FriendDataService from "../../services/friend-service";
 import React, { useState, useEffect } from "react";
 import OneFriend from "./oneFriend";
 import { nanoid } from "nanoid";
+import "./FriendList.css";
 
 function FriendList(props) {
   const [friends, setFriends] = useState([]);
@@ -26,7 +27,7 @@ function FriendList(props) {
           })
         );
         setFriendsClass(tmpFriendsClass);
-        console.log("获取好友列表成功: " + JSON.stringify(friendsData));
+        console.log("获取好友列表成功");
       })
       .catch((err) => {
         console.log("获取好友列表错误: " + err);
