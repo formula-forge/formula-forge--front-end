@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { nanoid } from "nanoid";
 import UserAvatar from "../Users/UserAvatar";
 import "./Chat.css";
 import Typebox from "./Typebox";
+import UserContext from "./../../Context";
 
 function makeTime(timestampStr) {
   //生成时间字符串
@@ -21,6 +22,7 @@ function makeTime(timestampStr) {
 
 // 这是与单个好友聊天的页面
 const Chat = (props) => {
+  const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
   const user = Number(props.user);
   const myname = props.myname;
   const friend = Number(props.friend);
@@ -103,7 +105,15 @@ const Chat = (props) => {
   const height = window.innerHeight;
   return (
     <div className="chat-box">
-      <h3>{nickname + "(" + props.friend + ")"}</h3>
+      <p
+        onClick={() => {
+          setGetUserInfoId(friend);
+          setUserInfoDisplay(true);
+        }}
+        className="friend-title"
+      >
+        {nickname + "(" + props.friend + ")"}
+      </p>
       <div className="message-box">
         <div className="chat-history" ref={chatRef}>
           {messages.map((message, index) => {

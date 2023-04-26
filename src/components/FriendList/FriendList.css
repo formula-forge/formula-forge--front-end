@@ -1,3 +1,24 @@
 .friend-list {
   overflow-y: auto;
 }
+.class-title {
+  font-size: large;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.class-title:hover {
+  background-color: #f2f2f2;
+}
+.V-arrow-icon {
+  height: 15px;
+  width: 15px;
+  transition: transform 0.3s ease;
+  margin-right: 5px;
+}
+.V-arrow-icon.open {
+  transform: rotate(90deg);
+}
+.class-content {
+  transition: max-height 0.3s ease;
+}

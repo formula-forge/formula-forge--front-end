@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import OneFriend from "./oneFriend";
 import { nanoid } from "nanoid";
 import "./FriendList.css";
+import V_arrow from "../../assets/icon/V_arrow.png";
 
 function FriendList(props) {
   const [friends, setFriends] = useState([]);
@@ -39,7 +40,8 @@ function FriendList(props) {
     return (
       <div key={nanoid()}>
         {/* 按钮用于展开 */}
-        <button
+        <div
+          className="class-title"
           onClick={() => {
             setFriendsClass({
               ...friendsClass,
@@ -47,10 +49,16 @@ function FriendList(props) {
             });
           }}
         >
-          {friendClass}
-        </button>
+          <img
+            className={
+              friendsClass[friendClass] ? "V-arrow-icon open" : "V-arrow-icon"
+            }
+            src={V_arrow}
+          />
+          <span className="class-name">{friendClass}</span>
+        </div>
         {/* 根据按钮的状态决定是否展开好友列表 */}
-        <div>
+        <div className="class-content">
           {friendsClass[friendClass]
             ? friends
                 .filter((friend) => friend.classification === friendClass)

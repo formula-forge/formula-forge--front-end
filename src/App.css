@@ -1,8 +1,13 @@
-.App {
-  text-align: center;
+nav {
+  border: 2px solid black;
+  height: 95vh;
+  width: 20vw;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+main {
+  background-color: #fff;
+  border: 2px solid black;
+  width: 70vw;
+  height: 95vh;
+  margin-left: 30px;
+  margin-right: 30px;
 }

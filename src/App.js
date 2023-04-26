@@ -12,6 +12,7 @@ import UserInfo from "./components/Users/UserInfo";
 import UserContext from "./Context";
 
 function App() {
+  const [navLink, setNavLink] = useState("friend");
   const [target, setTarget] = useState("");
   const [targetName, setTargetName] = useState("");
   const [targetType, setTargetType] = useState("");
@@ -231,38 +232,22 @@ function App() {
         ) : null}
       </div>
       <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
-        <BrowserRouter basename="/">
-          <nav
-            style={{
-              padding: "10px 30px 0 30px",
-              border: "2px solid black",
-              height: "95vh",
-            }}
-          >
-            <p>
-              <Link to="/">首页</Link>
-            </p>
-            <p>
-              <Link to="/friends">好友列表</Link>
-            </p>
-            <Routes>
-              <Route path="/" element={null} />
-              <Route
-                path="/friends"
-                element={
-                  !logged ? null : (
-                    <FriendList
-                      setTarget={setTarget}
-                      setTargetType={setTargetType}
-                      setTargetName={setTargetName}
-                    />
-                  )
-                }
+        <p>
+          <p onClick={() => setNavLink("friend")}>好友列表</p>
+          <p onClick={() => setNavLink("group")}>群组列表</p>
+        </p>
+        <nav>
+          {navLink === "friend" ? (
+            !logged ? null : (
+              <FriendList
+                setTarget={setTarget}
+                setTargetType={setTargetType}
+                setTargetName={setTargetName}
               />
-            </Routes>
-          </nav>
-        </BrowserRouter>
-        {chooseCondition()}
+            )
+          ) : null}
+        </nav>
+        <main>{chooseCondition()}</main>
       </UserContext.Provider>
     </div>
   );

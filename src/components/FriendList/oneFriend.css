@@ -2,10 +2,14 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
+  padding-right: 10px;
 }
 .one-friend {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: -10px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.one-friend:hover {
+  background-color: #f2f2f2;
 }
