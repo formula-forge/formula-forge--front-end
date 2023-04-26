@@ -5,12 +5,17 @@
 .friend-title {
   height: 3vh;
   margin-top: 2vh;
+  margin-bottom: 1.5vh;
+  text-align: center;
 }
 .message-box {
   height: 85vh;
+  display: flex;
+  position: relative;
 }
 .chat-history {
-  height: 80%;
+  width: 100%;
+  height: 65vh;
   border-bottom: 2px solid gainsboro;
   border-top: 2px solid gainsboro;
   overflow-y: auto;

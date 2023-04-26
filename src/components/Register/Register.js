@@ -5,6 +5,7 @@ function Log(props) {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -13,19 +14,10 @@ function Log(props) {
 
   return (
     <div>
-      <h2>Register Page</h2>
+      <h2>注册</h2>
       <form onSubmit={handleRegister}>
         <div>
-          <label>username:</label>
-          <br />
-          <input
-            type="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>phone:</label>
+          <label>手机号</label>
           <br />
           <input
             type="phone"
@@ -34,7 +26,16 @@ function Log(props) {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label>昵称</label>
+          <br />
+          <input
+            type="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>密码</label>
           <br />
           <input
             type="password"
@@ -43,7 +44,16 @@ function Log(props) {
           />
         </div>
         <div>
-          <label>verifycode:</label>
+          <label>确认密码</label>
+          <br />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>手机验证码</label>
           <br />
           <input
             type="verifycode"
@@ -51,7 +61,8 @@ function Log(props) {
             onChange={(e) => setVerifycode(e.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+
+        <button type="submit">注册</button>
       </form>
     </div>
   );

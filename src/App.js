@@ -2,7 +2,6 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import FriendList from "./components/FriendList/FriendList";
 import Chat from "./components/Chat/Chat";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import cookie from "react-cookies";
 import logDataService from "./services/log-service";
 import Log from "./components/Log/Log";
@@ -10,6 +9,7 @@ import Register from "./components/Register/Register";
 import userDataService from "./services/user-service";
 import UserInfo from "./components/Users/UserInfo";
 import UserContext from "./Context";
+import UserAvatar from "./components/Users/UserAvatar";
 
 function App() {
   const [navLink, setNavLink] = useState("friend");
@@ -48,7 +48,7 @@ function App() {
         newSocket.close();
       }
     };
-  }, [connectTrigger]);
+  }, [connectTrigger, logged]);
   useEffect(() => {
     if (!socket) {
       //防止socket未创建时报错
@@ -126,12 +126,11 @@ function App() {
       .then((response) => {
         cookie.save("token", response.data.token);
         cookie.save("userId", response.data.userId);
-        console.log("http登录成功, 用户名: " + response.data.userId);
-        setConnectTrigger(true);
+        console.log("http登录成功, 用户Id: " + response.data.userId);
         setLogged(true);
         setUser(response.data.userId);
-        setMyname(response.data.name);
         setLogging(false);
+        setConnectTrigger(!connectTrigger);
       })
       .catch((e) => {
         console.log("http登录失败, 错误信息: " + JSON.stringify(e.response.data));
@@ -154,6 +153,8 @@ function App() {
       .catch((e) => {
         console.log("http登出失败, 错误信息: " + e);
       });
+    //刷新页面
+    window.location.reload();
   };
   const handleRegister = (verifycode, phone, username, password) => {
     userDataService
@@ -183,17 +184,10 @@ function App() {
           newMessage={newMessage}
         />
       );
-    if (logging) return <Log handleLogin={handleLogin} />;
-    if (registering) return <Register handleRegister={handleRegister} />;
   }
-
-  return (
-    <div style={{ display: "flex", flex: "auto" }}>
-      {userInfoDisplay ? (
-        <UserInfo userId={getUserInfoId} setDisplay={setUserInfoDisplay} />
-      ) : null}
+  const notLoggedPage = () => {
+    return (
       <div>
-        {logged ? <button onClick={handleLogout}>登出</button> : null}
         <button
           onClick={() => {
             handleLogin("testA", null, "P@ssW0rd");
@@ -228,29 +222,57 @@ function App() {
             >
               注册
             </button>
+            {logging ? <Log handleLogin={handleLogin} /> : null}
+            {registering ? <Register handleRegister={handleRegister} /> : null}
           </>
         ) : null}
       </div>
-      <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
-        <p>
-          <p onClick={() => setNavLink("friend")}>好友列表</p>
-          <p onClick={() => setNavLink("group")}>群组列表</p>
-        </p>
-        <nav>
-          {navLink === "friend" ? (
-            !logged ? null : (
+    );
+  };
+  const loggedPage = () => {
+    return (
+      <div style={{ display: "flex", flex: "auto" }}>
+        {userInfoDisplay ? (
+          <UserInfo userId={getUserInfoId} setDisplay={setUserInfoDisplay} />
+        ) : null}
+        <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
+          <div>
+            <button className="nav-button" onClick={handleLogout}>
+              登出
+            </button>
+            <button className="nav-button" onClick={() => setNavLink("friend")}>
+              好友
+              <br />
+              列表
+            </button>
+            <button className="nav-button" onClick={() => setNavLink("group")}>
+              群组
+              <br />
+              列表
+            </button>
+          </div>
+          <nav>
+            {navLink === "friend" ? (
               <FriendList
                 setTarget={setTarget}
                 setTargetType={setTargetType}
                 setTargetName={setTargetName}
               />
-            )
-          ) : null}
-        </nav>
-        <main>{chooseCondition()}</main>
-      </UserContext.Provider>
-    </div>
-  );
+            ) : null}
+
+            <div className="me">
+              <UserAvatar userId={user} type="me-avatar" />
+              <div className="me-info">
+                <p className="myname">{myname + "(" + user + ")"}</p>
+              </div>
+            </div>
+          </nav>
+          <main>{chooseCondition()}</main>
+        </UserContext.Provider>
+      </div>
+    );
+  };
+  return <>{logged ? loggedPage() : notLoggedPage()}</>;
 }
 
 export default App;

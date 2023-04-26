@@ -2,7 +2,8 @@
   overflow-y: auto;
 }
 .class-title {
-  font-size: large;
+  padding-left: 1vw;
+  font-size: medium;
   height: 40px;
   display: flex;
   align-items: center;
@@ -20,5 +21,6 @@
   transform: rotate(90deg);
 }
 .class-content {
-  transition: max-height 0.3s ease;
+  padding-left: 1vw;
+  transition: all 0.3s ease;
 }

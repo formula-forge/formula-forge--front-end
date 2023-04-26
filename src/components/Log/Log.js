@@ -12,10 +12,10 @@ function Log(props) {
 
   return (
     <div>
-      <h2>Login Page</h2>
+      <h2>登录</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <label>username:</label>
+          <label>昵称</label>
           <br />
           <input
             type="username"
@@ -24,7 +24,7 @@ function Log(props) {
           />
         </div>
         <div>
-          <label>phone:</label>
+          <label>手机号</label>
           <br />
           <input
             type="phone"
@@ -33,7 +33,7 @@ function Log(props) {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label>密码</label>
           <br />
           <input
             type="password"
@@ -41,7 +41,7 @@ function Log(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">登录</button>
       </form>
     </div>
   );
