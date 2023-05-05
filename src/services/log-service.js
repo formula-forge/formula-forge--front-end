@@ -1,6 +1,6 @@
 import http from "./http-common";
 
-class LogDataService {
+class LogService {
   login(username, phone, password) {
     const message = {};
     if (username) message.username = username;
@@ -13,4 +13,4 @@ class LogDataService {
   }
 }
 // eslint-disable-next-line
-export default new LogDataService();
+export default new LogService();

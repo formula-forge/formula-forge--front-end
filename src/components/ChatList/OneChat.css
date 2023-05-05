@@ -1,0 +1,19 @@
+.one-chat {
+  padding: 10px;
+}
+.one-chat:hover {
+  background-color: #f2f2f2;
+}
+.title-and-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+.chat-title {
+  font-size: medium;
+}
+.chat-time {
+  font-size: small;
+  color: #999;
+}

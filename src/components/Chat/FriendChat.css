@@ -21,21 +21,23 @@
   overflow-y: auto;
 }
 .my-saying {
+  margin-top: 8px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: flex-end;
 }
 
 .friend-saying {
+  margin-top: 8px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: flex-start;
 }
 
 .saying {
-  margin: 0 10px;
+  margin: 8px 10px;
   padding: 10px;
   border-radius: 10px;
   background-color: #f2f2f2;
@@ -43,4 +45,5 @@
 }
 .time {
   text-align: center;
+  margin: 0;
 }

@@ -7,6 +7,11 @@ function Log(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const handleGetSms = (e) => {
+    e.preventDefault();
+    props.handleGetSms(phone);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
     props.handleRegister(verifycode, phone, username, password);
@@ -24,6 +29,7 @@ function Log(props) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
+          <button onClick={handleGetSms}>获取验证码</button>
         </div>
         <div>
           <label>昵称</label>

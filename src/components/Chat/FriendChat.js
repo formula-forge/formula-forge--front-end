@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { nanoid } from "nanoid";
 import UserAvatar from "../Users/UserAvatar";
-import "./Chat.css";
+import "./FriendChat.css";
 import Typebox from "./Typebox";
-import UserContext from "./../../Context";
+import UserContext from "../../Context";
+import sessionService from "../../services/session-service";
 
 function makeTime(timestampStr) {
   //生成时间字符串
@@ -30,6 +31,7 @@ const Chat = (props) => {
   const newMessage = props.newMessage;
   const [messages, setMessages] = useState([]);
   const chatRef = useRef(null);
+  const mathJaxRef = useRef(null);
   const handleSubmit = (inputValue) => {
     const message = {
       target: Number(user),
@@ -42,20 +44,52 @@ const Chat = (props) => {
     setMessages((m) => [...m, message]);
     if (props.handleSubmit({ ...message, target: Number(friend) })) return true;
   };
+
   useEffect(() => {
+    let gottenMessages = [];
     // 从本地存储中读取聊天记录
     const storedMessages = localStorage.getItem(`messages:${user}-${friend}`);
     if (storedMessages) {
-      setMessages(JSON.parse(storedMessages));
-    } else setMessages([]);
+      gottenMessages = JSON.parse(storedMessages);
+    }
     // 从网络中获取聊天记录
-    // TODO
+    sessionService
+      .getFriendSession(friend)
+      .then((res) => {
+        const newMessages = res.data.messages;
+        gottenMessages = [...gottenMessages, ...newMessages];
+        gottenMessages.sort((a, b) => a.timestamp - b.timestamp);
+        //去重
+        let i = 0;
+        while (i < gottenMessages.length - 1) {
+          if (
+            gottenMessages[i].timestamp === gottenMessages[i + 1].timestamp &&
+            gottenMessages[i].content === gottenMessages[i + 1].content
+          ) {
+            gottenMessages.splice(i, 1);
+          } else i++;
+        }
+        setMessages(gottenMessages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [user, friend]); //当friend改变时重新录入聊天记录
 
   useEffect(() => {
     if (!newMessage) return;
-    setMessages((m) => [...m, newMessage]);
+    setMessages((m) => [
+      ...m,
+      { ...newMessage, sender: newMessage.target, target: null },
+    ]);
   }, [newMessage]);
+  useEffect(() => {
+    //标记已读
+    sessionService.haveReadFriend(friend).catch((err) => {
+      console.log(err);
+    });
+  }, [friend]);
+
   useEffect(() => {
     if (!messages.length) return; // 如果没有聊天记录则不渲染
     // 将聊天记录保存到本地存储
@@ -81,13 +115,13 @@ const Chat = (props) => {
       // 滚动到聊天记录的底部
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     };
-  }, [messages]);
+  }, [messages, props.messageChangeTrigger]);
 
   // 用于渲染一条消息
   function oneMessage(time, sender, content) {
     return (
       <div key={nanoid()}>
-        <p className="time">{time}</p>
+        {time ? <p className="time">{time}</p> : null}
         {sender == friend ? (
           <div className="friend-saying">
             <UserAvatar userId={sender} type={"chat-avatar"} />
@@ -102,9 +136,35 @@ const Chat = (props) => {
       </div>
     );
   }
-  const height = window.innerHeight;
+  const allChatMessages = messages.map((message, index) => {
+    // 检测日期是否相同
+    if (
+      makeTime(message.timestamp).substring(0, 10) !==
+      makeTime(Date.now()).substring(0, 10)
+    ) {
+      return oneMessage(
+        makeTime(message.timestamp), //不是今天则全部显示
+        message.sender,
+        message.content
+      );
+    } else {
+      if (
+        index === 0 || //防止数组越界
+        makeTime(message.timestamp).substring(0, 15) !== //检测分钟的十位是否相同
+          makeTime(messages[index - 1].timestamp).substring(0, 15)
+      )
+        return oneMessage(
+          // 时间不同则显示时间的时分秒
+          makeTime(message.timestamp).substring(11, 19),
+          message.sender,
+          message.content
+        );
+      // 时间相同则不显示时间
+      else return oneMessage("", message.sender, message.content);
+    }
+  });
   return (
-    <div className="chat-box">
+    <div className="chat-box" ref={mathJaxRef}>
       <p
         onClick={() => {
           setGetUserInfoId(friend);
@@ -116,33 +176,7 @@ const Chat = (props) => {
       </p>
       <div className="message-box">
         <div className="chat-history" ref={chatRef}>
-          {messages.map((message, index) => {
-            // 检测日期是否相同
-            if (
-              makeTime(message.timestamp).substring(0, 10) !==
-              makeTime(Date.now()).substring(0, 10)
-            ) {
-              return oneMessage(
-                makeTime(message.timestamp),
-                message.target,
-                message.content
-              );
-            } else {
-              if (
-                index === 0 || //防止数组越界
-                makeTime(message.timestamp).substring(0, 15) !== //检测分钟的十位是否相同
-                  makeTime(messages[index - 1].timestamp).substring(0, 15)
-              )
-                return oneMessage(
-                  // 时间不同则显示时间的时分秒
-                  makeTime(message.timestamp).substring(11, 19),
-                  message.target,
-                  message.content
-                );
-              // 时间相同则不显示时间
-              else return oneMessage("", message.target, message.content);
-            }
-          })}
+          {allChatMessages}
         </div>
         <Typebox handleSubmit={handleSubmit} />
       </div>

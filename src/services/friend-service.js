@@ -1,6 +1,6 @@
 import http from "./http-common";
 
-class FriendDataService {
+class FriendService {
   getAll() {
     return http.get("/friends");
   }
@@ -9,12 +9,26 @@ class FriendDataService {
     return http.get(`/friends?class=${friendClass}`);
   }
 
-  postNewFriend(freindId, message) {
-    return http.post(`/friends/application?friendId=${freindId}`, message);
+  postNewFriend(receiver, message, classification, nickname) {
+    return http.post(`/friends/application`, {
+      receiver,
+      message,
+      classification,
+      nickname,
+    });
   }
 
-  getNewFriend() {
+  getAllNewFriend() {
     return http.get(`/friends/application`);
+  }
+
+  agreeNewFriend(friendId, applicationId, classification, nickname) {
+    return http.get(`/friends`, {
+      friendId,
+      applicationId,
+      classification,
+      nickname,
+    });
   }
 
   deleteFriend(friendId) {
@@ -26,4 +40,4 @@ class FriendDataService {
   }
 }
 // eslint-disable-next-line
-export default new FriendDataService();
+export default new FriendService();

@@ -1,5 +1,5 @@
 import React from "react";
-import UserDataService from "../../services/user-service";
+import userService from "../../services/user-service";
 import "./UserInfo.css";
 
 function UserInfo(props) {
@@ -7,7 +7,8 @@ function UserInfo(props) {
   const userId = props.userId;
   const setDisplay = props.setDisplay;
   React.useEffect(() => {
-    UserDataService.getInfo(userId)
+    userService
+      .getInfo(userId)
       .then((response) => {
         setUserInfo(response.data.data);
       })

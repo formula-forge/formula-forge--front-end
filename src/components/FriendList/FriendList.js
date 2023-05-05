@@ -1,4 +1,4 @@
-import FriendDataService from "../../services/friend-service";
+import FriendService from "../../services/friend-service";
 import React, { useState, useEffect } from "react";
 import OneFriend from "./oneFriend";
 import { nanoid } from "nanoid";
@@ -12,7 +12,7 @@ function FriendList(props) {
   // 首次渲染时，读取好友列表
   useEffect(() => {
     let friendsData;
-    FriendDataService.getAll()
+    FriendService.getAll()
       .then((res) => {
         friendsData = res.data.entries;
         let tmpFriendsClass = {};

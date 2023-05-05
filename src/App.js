@@ -1,18 +1,22 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import FriendList from "./components/FriendList/FriendList";
-import Chat from "./components/Chat/Chat";
+import Chat from "./components/Chat/FriendChat";
 import cookie from "react-cookies";
-import logDataService from "./services/log-service";
+import logService from "./services/log-service";
 import Log from "./components/Log/Log";
 import Register from "./components/Register/Register";
-import userDataService from "./services/user-service";
+import userService from "./services/user-service";
 import UserInfo from "./components/Users/UserInfo";
 import UserContext from "./Context";
 import UserAvatar from "./components/Users/UserAvatar";
+import ChatList from "./components/ChatList/ChatList";
+import AddList from "./components/Add/AddList";
+import Add from "./components/Add/Add";
 
 function App() {
-  const [navLink, setNavLink] = useState("friend");
+  const [messageChangeTrigger, setMessageChangeTrigger] = useState(false);
+  const [navLink, setnavLink] = useState("friend");
   const [target, setTarget] = useState("");
   const [targetName, setTargetName] = useState("");
   const [targetType, setTargetType] = useState("");
@@ -73,7 +77,7 @@ function App() {
           setLogged(true);
 
           //获取自己的用户名
-          userDataService
+          userService
             .getYourself()
             .then((response) => {
               setUser(response.data.data.userId);
@@ -86,6 +90,12 @@ function App() {
             .catch((e) => {
               console.log("获取自己的用户名失败, 错误信息: " + e);
             });
+        } else if (code === 400) {
+          if (JSON.parse(event.data).msg === "token无效") {
+            alert("登录已过期，请重新登录");
+            cookie.remove("token");
+            setLogged(false);
+          }
         }
       } catch (e) {
         console.log("接受WebSocket信息出错, 错误信息: " + e);
@@ -121,7 +131,7 @@ function App() {
     }
   };
   const handleLogin = (username, phone, password) => {
-    logDataService
+    logService
       .login(username, phone, password)
       .then((response) => {
         cookie.save("token", response.data.token);
@@ -145,7 +155,7 @@ function App() {
     setLogged(false);
     socket.close();
     console.log("http尝试登出");
-    logDataService
+    logService
       .logout()
       .then((response) => {
         console.log("http登出成功");
@@ -156,8 +166,22 @@ function App() {
     //刷新页面
     window.location.reload();
   };
+  const handleGetSms = (phone) => {
+    userService
+      .getSms(phone)
+      .then((response) => {
+        console.log("http获取验证码成功");
+        alert("验证码已发送");
+      })
+      .catch((e) => {
+        console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
+        if (e.response.data.code === 10) alert("请求过于频繁");
+        if (e.response.data.code === 11) alert("手机号不合法");
+        if (e.response.data.code === 30) alert("服务器错误");
+      });
+  };
   const handleRegister = (verifycode, phone, username, password) => {
-    userDataService
+    userService
       .register(Number(verifycode), phone, username, password)
       .then((response) => {
         console.log("http注册成功, 用户ID: " + response.data.userId);
@@ -165,15 +189,45 @@ function App() {
         alert("注册成功, 请登录");
       })
       .catch((e) => {
-        console.log("http注册失败, 错误信息: " + JSON.stringify(e.response.data));
+        console.log("http注册失败, 错误信息: " + JSON.stringify(e));
         if (e.response.data.code === 10) alert("参数不完整");
         if (e.response.data.code === 12) alert("验证码错误");
         if (e.response.data.code === 1) alert("参数不合法");
-        if (e.response.data.code === 13) alert("用户名已存在");
+        if (e.response.data.code === 13) alert("用户已存在");
+        if (e.response.data.code === 30) alert("服务器错误");
       });
   };
-  function chooseCondition() {
-    if (targetType === "friend" && logged)
+  function chooseNav() {
+    if (navLink === "friend") {
+      return (
+        <FriendList
+          setTarget={setTarget}
+          setTargetType={setTargetType}
+          setTargetName={setTargetName}
+        />
+      );
+    } else if (navLink === "group") {
+      return null;
+    } else if (navLink === "chat") {
+      return (
+        <ChatList
+          setTarget={setTarget}
+          setTargetType={setTargetType}
+          setTargetName={setTargetName}
+        />
+      );
+    } else if (navLink === "add") {
+      return (
+        <AddList
+          setTarget={setTarget}
+          setTargetType={setTargetType}
+          setTargetName={setTargetName}
+        />
+      );
+    }
+  }
+  function chooseMain() {
+    if (targetType === "friend" && target && targetName) {
       return (
         <Chat
           user={user}
@@ -182,8 +236,11 @@ function App() {
           nickname={targetName}
           handleSubmit={handleSubmit}
           newMessage={newMessage}
+          messageChangeTrigger={messageChangeTrigger}
         />
       );
+    } else if (targetType === "group") return null;
+    else if (targetType === "add") return <Add user={user} addInfo={target} />;
   }
   const notLoggedPage = () => {
     return (
@@ -202,30 +259,72 @@ function App() {
         >
           登录77
         </button>
-        {!logged ? (
-          <>
-            <button
-              onClick={() => {
-                setLogging(true);
-                setRegistering(false);
-                console.log("点击登录");
-              }}
-            >
-              登录
-            </button>
-            <button
-              onClick={() => {
-                setRegistering(true);
-                setLogging(false);
-                console.log("点击注册");
-              }}
-            >
-              注册
-            </button>
-            {logging ? <Log handleLogin={handleLogin} /> : null}
-            {registering ? <Register handleRegister={handleRegister} /> : null}
-          </>
+        <button
+          onClick={() => {
+            setLogging(true);
+            setRegistering(false);
+            console.log("点击登录");
+          }}
+        >
+          登录
+        </button>
+        <button
+          onClick={() => {
+            setRegistering(true);
+            setLogging(false);
+            console.log("点击注册");
+          }}
+        >
+          注册
+        </button>
+        {logging ? <Log handleLogin={handleLogin} /> : null}
+        {registering ? (
+          <Register handleRegister={handleRegister} handleGetSms={handleGetSms} />
         ) : null}
+      </div>
+    );
+  };
+  useEffect(() => {
+    setMessageChangeTrigger((prev) => !prev);
+  }, [navLink]);
+  const navLinkChoose = () => {
+    return (
+      <div>
+        <button className="nav-button" onClick={handleLogout}>
+          登出
+        </button>
+        <button
+          className={(navLink === "friend" ? "using " : "") + "nav-button"}
+          onClick={() => setnavLink("friend")}
+        >
+          好友
+          <br />
+          列表
+        </button>
+        <button
+          className={(navLink === "group" ? "using " : "") + "nav-button"}
+          onClick={() => setnavLink("group")}
+        >
+          群组
+          <br />
+          列表
+        </button>
+        <button
+          className={(navLink === "chat" ? "using " : "") + "nav-button"}
+          onClick={() => setnavLink("chat")}
+        >
+          聊天
+          <br />
+          列表
+        </button>
+        <button
+          className={(navLink === "add" ? "using " : "") + "nav-button"}
+          onClick={() => setnavLink("add")}
+        >
+          好友
+          <br />
+          申请
+        </button>
       </div>
     );
   };
@@ -236,30 +335,9 @@ function App() {
           <UserInfo userId={getUserInfoId} setDisplay={setUserInfoDisplay} />
         ) : null}
         <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
-          <div>
-            <button className="nav-button" onClick={handleLogout}>
-              登出
-            </button>
-            <button className="nav-button" onClick={() => setNavLink("friend")}>
-              好友
-              <br />
-              列表
-            </button>
-            <button className="nav-button" onClick={() => setNavLink("group")}>
-              群组
-              <br />
-              列表
-            </button>
-          </div>
+          {navLinkChoose()}
           <nav>
-            {navLink === "friend" ? (
-              <FriendList
-                setTarget={setTarget}
-                setTargetType={setTargetType}
-                setTargetName={setTargetName}
-              />
-            ) : null}
-
+            {chooseNav()}
             <div className="me">
               <UserAvatar userId={user} type="me-avatar" />
               <div className="me-info">
@@ -267,7 +345,7 @@ function App() {
               </div>
             </div>
           </nav>
-          <main>{chooseCondition()}</main>
+          <main>{chooseMain()}</main>
         </UserContext.Provider>
       </div>
     );
