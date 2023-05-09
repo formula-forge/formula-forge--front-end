@@ -1,0 +1,23 @@
+.chat-menu {
+  position: fixed;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 5px 10px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.chat-menu button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: gray;
+}
+
+.chat-menu button:hover {
+  text-decoration: underline;
+}

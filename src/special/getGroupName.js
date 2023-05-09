@@ -1,5 +1,5 @@
 //import ...
 
-function getGroupName(id) {}
+async function getGroupName(id) {}
 
 export default getGroupName;

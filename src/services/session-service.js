@@ -16,6 +16,13 @@ class SessionService {
   haveReadGroup(id) {
     return http.patch(`/session/group/${id}`);
   }
+  deleteSession(isGroup, id) {
+    if (isGroup) {
+      return http.delete(`/session/group/${id}`);
+    } else {
+      return http.delete(`/session/user/${id}`);
+    }
+  }
 }
 
 export default new SessionService();

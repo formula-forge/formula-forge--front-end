@@ -6,6 +6,7 @@ import "./FriendList.css";
 import V_arrow from "../../assets/icon/V_arrow.png";
 
 function FriendList(props) {
+  const [loading, setLoading] = useState(true); // 加载状态
   const [friends, setFriends] = useState([]);
   const [friendsClass, setFriendsClass] = useState({});
 
@@ -28,6 +29,7 @@ function FriendList(props) {
           })
         );
         setFriendsClass(tmpFriendsClass);
+        setLoading(false);
         console.log("获取好友列表成功");
       })
       .catch((err) => {
@@ -66,7 +68,8 @@ function FriendList(props) {
                   return (
                     <OneFriend
                       key={nanoid()}
-                      name={friend.nickname ? friend.nickname : friend.name}
+                      nickname={friend.nickname}
+                      name={friend.name}
                       avatar={friend.avatar}
                       userId={friend.userId}
                       setTarget={props.setTarget}
@@ -81,7 +84,11 @@ function FriendList(props) {
     );
   });
 
-  return <div className="friend-list">{allFriends}</div>;
+  return (
+    <div className="friend-list">
+      {loading ? <div className="loading">加载中...</div> : allFriends}
+    </div>
+  );
 }
 
 export default FriendList;

@@ -23,6 +23,7 @@ function makeTime(timestampStr) {
 
 // 这是与单个好友聊天的页面
 const Chat = (props) => {
+  const [loading, setLoading] = useState(true); // 是否正在加载
   const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
   const user = Number(props.user);
   const myname = props.myname;
@@ -41,11 +42,19 @@ const Chat = (props) => {
       timestamp: Date.now(),
     };
     console.log("user: " + user + " friend: " + friend);
-    setMessages((m) => [...m, message]);
+    setMessages((m) => [
+      ...m,
+      {
+        ...message,
+        sender: user,
+        target: null,
+      },
+    ]);
     if (props.handleSubmit({ ...message, target: Number(friend) })) return true;
   };
 
   useEffect(() => {
+    setLoading(true);
     let gottenMessages = [];
     // 从本地存储中读取聊天记录
     const storedMessages = localStorage.getItem(`messages:${user}-${friend}`);
@@ -70,9 +79,12 @@ const Chat = (props) => {
           } else i++;
         }
         setMessages(gottenMessages);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
+        setMessages(gottenMessages);
       });
   }, [user, friend]); //当friend改变时重新录入聊天记录
 
@@ -122,7 +134,7 @@ const Chat = (props) => {
     return (
       <div key={nanoid()}>
         {time ? <p className="time">{time}</p> : null}
-        {sender == friend ? (
+        {sender !== user ? (
           <div className="friend-saying">
             <UserAvatar userId={sender} type={"chat-avatar"} />
             <div className="saying">{content}</div>
@@ -172,11 +184,15 @@ const Chat = (props) => {
         }}
         className="friend-title"
       >
-        {nickname + "(" + props.friend + ")"}
+        {nickname + "-(" + props.friend + ")"}
       </p>
       <div className="message-box">
         <div className="chat-history" ref={chatRef}>
-          {allChatMessages}
+          {loading ? (
+            <div className="loading">加载中...</div>
+          ) : (
+            <>{allChatMessages}</>
+          )}
         </div>
         <Typebox handleSubmit={handleSubmit} />
       </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import friendService from "../../services/friend-service";
 import { nanoid } from "@reduxjs/toolkit";
+import UserAvatar from "../Users/UserAvatar";
+import "./AddList.css";
 
 function AddList(props) {
   const [postedList, setPostedList] = useState([]);
@@ -27,17 +29,41 @@ function AddList(props) {
 
   const allPostedList = postedList.map((addInfo) => {
     return (
-      <div key={`${nanoid()}`} onClick={() => handleSetTarget(addInfo)}>
-        <p>{addInfo.receiver}</p>
-        <p>{addInfo.message}</p>
+      <div
+        className="one-add"
+        key={`${nanoid()}`}
+        onClick={() => handleSetTarget(addInfo)}
+      >
+        <UserAvatar type="list-avatar" userId={addInfo.receiver} />
+        <div className="info">
+          <p>{addInfo.receiver}</p>
+          <p>{addInfo.message}</p>
+        </div>
+        {addInfo.approved ? (
+          <div className="acceptance">已通过</div>
+        ) : (
+          <div className="unacceptance">未通过</div>
+        )}
       </div>
     );
   });
   const allReceivedList = receivedList.map((addInfo) => {
     return (
-      <div key={`${nanoid()}`} onClick={() => handleSetTarget(addInfo)}>
-        <p>{addInfo.sender}</p>
-        <p>{addInfo.message}</p>
+      <div
+        className="one-add"
+        key={`${nanoid()}`}
+        onClick={() => handleSetTarget(addInfo)}
+      >
+        <UserAvatar type="list-avatar" userId={addInfo.sender} />
+        <div className="info">
+          <p>{addInfo.sender}</p>
+          <p>{addInfo.message}</p>
+        </div>
+        {addInfo.approved ? (
+          <div className="acceptance">已通过</div>
+        ) : (
+          <div className="unacceptance">未通过</div>
+        )}
       </div>
     );
   });

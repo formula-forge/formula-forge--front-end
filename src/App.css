@@ -38,6 +38,7 @@ nav {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 周围阴影效果 */
 }
 main {
+  padding: 4px;
   border-radius: 1vw;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 周围阴影效果 */
@@ -78,4 +79,13 @@ main {
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+}
+.log-out {
+  position: absolute;
+  bottom: 10px;
+  color: red;
+}
+.log-out:hover {
+  color: red;
+  font-weight: bold;
 }

@@ -1,10 +1,10 @@
 import userService from "../services/user-service";
 
-function getUserName(id) {
+export default async function getUserName(id) {
   if (localStorage.getItem(id)) {
     return localStorage.getItem(id);
   } else {
-    userService
+    return userService
       .getInfo(id)
       .then((res) => {
         localStorage.setItem(id, res.data.data.name);
@@ -15,5 +15,3 @@ function getUserName(id) {
       });
   }
 }
-
-export default getUserName;

@@ -1,6 +1,7 @@
 .chat-box {
   margin: auto;
   width: 90%;
+  position: relative;
 }
 .friend-title {
   height: 3vh;
@@ -9,7 +10,7 @@
   text-align: center;
 }
 .message-box {
-  height: 85vh;
+  height: 86vh;
   display: flex;
   position: relative;
 }

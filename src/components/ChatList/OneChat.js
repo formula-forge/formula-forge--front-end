@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import getUserName from "../../special/getUserName";
 import getGroupName from "../../special/getGroupName";
 import "./OneChat.css";
+import userService from "../../services/user-service";
 
 function makeTime(timestampStr) {
   //生成时间字符串
@@ -19,15 +20,32 @@ function makeTime(timestampStr) {
 }
 
 function OneChat(props) {
+  const [name, setName] = React.useState("");
+  async function getName() {
+    if (props.session.type === "user") {
+      let tmpname = await getUserName(props.session.id);
+      if (props.session.nickname) {
+        tmpname = props.session.nickname + "(" + tmpname + ")";
+      }
+      setName(tmpname);
+    } else {
+      const tmpname = await getGroupName(props.session.id);
+      setName(tmpname);
+    }
+  }
+  useEffect(() => {
+    getName();
+  }, [props.session.id, props.session.type]);
   const handleClick = () => {
     props.setTarget(props.session.id);
     if (props.session.type === "user") {
       props.setTargetType("friend");
-      props.setTargetName(getUserName(props.session.id));
+      props.setTargetName(name);
     } else {
       props.setTargetType("group");
-      props.setTargetName(getGroupName(props.session.id));
+      props.setTargetName(name);
     }
+    props.setRefreshTrigger((refresh) => refresh + 1);
   };
   function enhancedTime(formattedDateTime) {
     const now = makeTime(new Date());
@@ -39,17 +57,27 @@ function OneChat(props) {
       return formattedDateTime.slice(0, 10);
     }
   }
+  const handleContextMenu = (e) => {
+    e.preventDefault(); // 阻止默认右键行为
+    props.setShowContextMenu(true);
+    props.setContextMenuX(e.clientX);
+    props.setContextMenuY(e.clientY);
+    props.setChoosing(props.session);
+  };
   return (
-    <div className="one-chat" onClick={handleClick}>
+    <div
+      className="one-chat"
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
+    >
       <div className="title-and-time">
-        <div className="chat-title">
-          {props.session.type === "user"
-            ? getUserName(props.session.id)
-            : getGroupName(props.session.id)}
-        </div>
+        <div className="chat-title">{name}</div>
         <div className="chat-time">{enhancedTime(makeTime(props.session.time))}</div>
       </div>
-      <div className="chat-unread">{props.session.unread}</div>
+      <div className="chat-latest">{props.session.latest.replace(/\$/g, "")}</div>
+      {props.session.unread ? (
+        <div className="chat-unread">{props.session.unread}</div>
+      ) : null}
     </div>
   );
 }

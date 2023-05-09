@@ -7,7 +7,6 @@ function UserAvatar(props) {
   return (
     <div
       onClick={() => {
-        if (props.type === "list-avatar") return;
         setGetUserInfoId(props.userId);
         setUserInfoDisplay(true);
       }}

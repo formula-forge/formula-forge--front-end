@@ -18,8 +18,13 @@ class userService {
   getYourself() {
     return http.get("/user");
   }
-  changeInfo() {
-    //todo
+  changeInfo(name, phone, motto, isProtected) {
+    let data = {};
+    if (name) data.name = name;
+    if (phone) data.phone = phone;
+    if (motto) data.motto = motto;
+    if (isProtected) data.protected = isProtected;
+    return http.patch("/user", data);
   }
 }
 

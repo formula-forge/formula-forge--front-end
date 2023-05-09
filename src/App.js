@@ -16,7 +16,7 @@ import Add from "./components/Add/Add";
 
 function App() {
   const [messageChangeTrigger, setMessageChangeTrigger] = useState(false);
-  const [navLink, setnavLink] = useState("friend");
+  const [navLink, setnavLink] = useState("chat");
   const [target, setTarget] = useState("");
   const [targetName, setTargetName] = useState("");
   const [targetType, setTargetType] = useState("");
@@ -214,6 +214,8 @@ function App() {
           setTarget={setTarget}
           setTargetType={setTargetType}
           setTargetName={setTargetName}
+          user={user}
+          newMessage={newMessage}
         />
       );
     } else if (navLink === "add") {
@@ -290,8 +292,13 @@ function App() {
   const navLinkChoose = () => {
     return (
       <div>
-        <button className="nav-button" onClick={handleLogout}>
-          登出
+        <button
+          className={(navLink === "chat" ? "using " : "") + "nav-button"}
+          onClick={() => setnavLink("chat")}
+        >
+          聊天
+          <br />
+          列表
         </button>
         <button
           className={(navLink === "friend" ? "using " : "") + "nav-button"}
@@ -310,14 +317,6 @@ function App() {
           列表
         </button>
         <button
-          className={(navLink === "chat" ? "using " : "") + "nav-button"}
-          onClick={() => setnavLink("chat")}
-        >
-          聊天
-          <br />
-          列表
-        </button>
-        <button
           className={(navLink === "add" ? "using " : "") + "nav-button"}
           onClick={() => setnavLink("add")}
         >
@@ -325,16 +324,30 @@ function App() {
           <br />
           申请
         </button>
+        <button className="nav-button log-out" onClick={handleLogout}>
+          登出
+        </button>
       </div>
     );
   };
   const loggedPage = () => {
     return (
-      <div style={{ display: "flex", flex: "auto" }}>
-        {userInfoDisplay ? (
-          <UserInfo userId={getUserInfoId} setDisplay={setUserInfoDisplay} />
-        ) : null}
+      <div
+        style={{ display: "flex", flex: "auto" }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+        }}
+      >
         <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
+          {userInfoDisplay ? (
+            <UserInfo
+              userId={getUserInfoId}
+              setDisplay={setUserInfoDisplay}
+              setTarget={setTarget}
+              setTargetType={setTargetType}
+              setTargetName={setTargetName}
+            />
+          ) : null}
           {navLinkChoose()}
           <nav>
             {chooseNav()}

@@ -25,13 +25,33 @@
   outline: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+.chat-typebox-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.formula {
+  background-color: #fdff6e;
+  color: #000000;
+  border: 1px solid #000000;
+  width: 50px;
+  height: 30px;
+  margin: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: default;
+  transition: background-color 0.1s ease-in-out;
+}
+.formula:hover {
+  background-color: #c9c9c9;
+}
 .submit {
   background-color: #444343;
   color: #fff;
   border: none;
   width: 50px;
-  height: 40px;
-  margin: 10px;
+  height: 30px;
+  margin: 8px;
   font-size: 16px;
   font-weight: bold;
   cursor: default;

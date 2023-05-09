@@ -18,14 +18,22 @@ class FriendService {
     });
   }
 
+  directAddFriend(receiver, classification, nickname) {
+    return http.post(`/friends`, {
+      userId: receiver,
+      classification,
+      nickname,
+    });
+  }
+
   getAllNewFriend() {
     return http.get(`/friends/application`);
   }
 
-  agreeNewFriend(friendId, applicationId, classification, nickname) {
-    return http.get(`/friends`, {
-      friendId,
-      applicationId,
+  agreeNewFriend(friendId, application, classification, nickname) {
+    return http.post(`/friends`, {
+      userId: friendId,
+      application,
       classification,
       nickname,
     });
@@ -35,8 +43,11 @@ class FriendService {
     return http.delete(`/friends/${friendId}`);
   }
 
-  patchFriend(friendId, message) {
-    return http.patch(`/friends/${friendId}`, message);
+  changeFriendInfo(friendId, classification, nickname) {
+    let data = {};
+    if (classification) data.classification = classification;
+    if (nickname) data.nickname = nickname;
+    return http.patch(`/friends/${friendId}`, data);
   }
 }
 // eslint-disable-next-line
