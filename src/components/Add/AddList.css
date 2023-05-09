@@ -1,40 +1,3 @@
-.one-add {
-  padding-left: 4px;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  /*对齐中线*/
-  align-items: center;
-}
-.one-add:hover {
-  background-color: #f5f5f5;
-}
-.info {
-  width: auto;
-  padding: 4px;
-}
-.info p {
-  margin: 0;
-  margin-left: 4px;
-}
-.acceptance {
-  position: absolute;
-  right: 4px;
-  padding: 4px;
-  background-color: #a2eb9574;
-  color: #504f4f;
-  border-radius: 4px;
-  height: 24px;
-}
-.unacceptance {
-  position: absolute;
-  right: 4px;
-  padding: 4px;
-  background-color: #eb959586;
-  color: #504f4f;
-  border-radius: 4px;
-  height: 24px;
-}
 .search input {
   border: none;
   width: 100%;
@@ -47,4 +10,52 @@
 .search input:focus {
   outline: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.all-add {
+  padding: 8px;
+}
+.one-add {
+  padding-left: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+.one-add:hover {
+  background-color: #f5f5f5;
+}
+.info {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.info p {
+  margin: 0;
+  margin-left: 4px;
+}
+.acceptance {
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 4px;
+  background-color: #a2eb9574;
+  color: #504f4f;
+  border-radius: 4px;
+  height: 24px;
+}
+.unacceptance {
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 4px;
+  background-color: #eb959586;
+  color: #504f4f;
+  border-radius: 4px;
+  height: 24px;
+}
+.info p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -371,7 +371,7 @@ function App() {
           ) : null}
           {navLinkChoose()}
           <nav>
-            {chooseNav()}
+            <div className="nav-content">{chooseNav()}</div>
             <div className="me">
               <UserAvatar userId={user} type="me-avatar" />
               <div className="me-info">

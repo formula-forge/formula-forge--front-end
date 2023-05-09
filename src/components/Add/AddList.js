@@ -82,15 +82,17 @@ function AddList(props) {
       <form onSubmit={handleSearch} className="search">
         <input
           type="number"
-          placeholder="输入用户ID"
+          placeholder="搜索用户ID"
           value={searchId}
           onChange={(e) => setSearchId(e.target.value)}
         />
       </form>
-      <h2>已发送</h2>
-      {allPostedList}
-      <h2>已接收</h2>
-      {allReceivedList}
+      <div className="all-add">
+        <h2>已发送</h2>
+        {allPostedList}
+        <h2>已接收</h2>
+        {allReceivedList}
+      </div>
     </div>
   );
 }
