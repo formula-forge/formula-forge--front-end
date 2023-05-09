@@ -6,20 +6,30 @@ import friendService from "../../services/friend-service";
 import { useState } from "react";
 
 function UserInfo(props) {
+  const [noSuchUser, setNoSuchUser] = React.useState(false); // 用于判断是否有这个用户
+  const [loading, setLoading] = React.useState(true); // 用于判断是否正在加载
   const [userInfo, setUserInfo] = React.useState({});
   const [deleting, setDeleting] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [addMessage, setAddMessage] = useState("");
+  const [addClassification, setAddClassification] = useState("");
+  const [addNickname, setAddNickname] = useState("");
   const userId = props.userId;
   const setDisplay = props.setDisplay;
   React.useEffect(() => {
+    setLoading(true);
     userService
       .getInfo(userId)
       .then((response) => {
         setUserInfo(response.data.data);
         console.log(response.data.data);
+        setNoSuchUser(false);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
+        setNoSuchUser(true);
+        setLoading(false);
       });
   }, [userId]);
   function detail() {
@@ -113,13 +123,32 @@ function UserInfo(props) {
           <form>
             <textarea
               className="user-info-add-textarea"
-              placeholder="请输入验证信息"
+              placeholder="验证信息"
+              onChange={(e) => setAddMessage(e.target.value)}
             />
+            <br />
+            <textarea
+              className="user-info-add-textarea"
+              placeholder="分组"
+              onChange={(e) => setAddClassification(e.target.value)}
+            />
+            <br />
+            <textarea
+              className="user-info-add-textarea"
+              placeholder="备注"
+              onChange={(e) => setAddNickname(e.target.value)}
+            />
+            <br />
             <button
               className="user-info-add-button"
               onClick={() => {
                 setAdding(false);
-                addFriend(userInfo.userId, "message", "classification", "nickname");
+                addFriend(
+                  userInfo.userId,
+                  addMessage,
+                  addClassification,
+                  addNickname
+                );
               }}
             >
               发送好友申请
@@ -127,7 +156,9 @@ function UserInfo(props) {
           </form>
         </div>
       );
-    } else if (userInfo.name) {
+    } else if (loading) {
+      return <div>加载中...</div>;
+    } else if (!noSuchUser) {
       return (
         <div>
           <div className="user-info-avatar">
@@ -151,7 +182,7 @@ function UserInfo(props) {
         </div>
       );
     } else {
-      return <div>加载中...</div>;
+      return <div>没有这个用户</div>;
     }
   }
   return (

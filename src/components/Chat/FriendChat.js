@@ -33,7 +33,7 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const chatRef = useRef(null);
   const mathJaxRef = useRef(null);
-  const handleSubmit = (inputValue) => {
+  const handleSubmit = async (inputValue) => {
     const message = {
       target: Number(user),
       group: null,
@@ -42,6 +42,7 @@ const Chat = (props) => {
       timestamp: Date.now(),
     };
     console.log("user: " + user + " friend: " + friend);
+    props.handleSubmit({ ...message, target: Number(friend) });
     setMessages((m) => [
       ...m,
       {
@@ -50,7 +51,7 @@ const Chat = (props) => {
         target: null,
       },
     ]);
-    if (props.handleSubmit({ ...message, target: Number(friend) })) return true;
+    return true;
   };
 
   useEffect(() => {

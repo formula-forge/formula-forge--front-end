@@ -109,27 +109,48 @@ function App() {
       socket.removeEventListener("message", handleMessage);
     };
   }, [socket]);
+  function sendMessage(message) {
+    return new Promise((resolve, reject) => {
+      socket.send(message);
+      socket.onmessage = (event) => {
+        const { code } = JSON.parse(event.data);
+        if (code === 200) {
+          resolve("消息发送成功");
+        } else if (code === 400) {
+          reject("服务器连接错误");
+        } else if (code === 403) {
+          reject("对方不是你的好友");
+        }
+      };
+    });
+  }
   useEffect(() => {
     if (cookie.load("token") !== undefined) {
       setConnectTrigger(true);
       setLogged(true);
     }
   }, []);
-  const handleSubmit = (message) => {
+  function handleSubmit(message) {
     // 检查 WebSocket 连接状态是否为已连接
     if (socket.readyState === WebSocket.OPEN) {
       const Msg = {
         code: 1,
         message: message,
       };
-      socket.send(JSON.stringify(Msg));
-      return true;
+      sendMessage(JSON.stringify(Msg))
+        .then((response) => {
+          console.log(response);
+          return true;
+        })
+        .catch((e) => {
+          alert(e);
+        });
     } else {
-      alert("WebSocket 连接状态未完成，无法发送消息");
+      alert("连接失败，无法发送消息");
       setConnectTrigger(true);
       return false;
     }
-  };
+  }
   const handleLogin = (username, phone, password) => {
     logService
       .login(username, phone, password)

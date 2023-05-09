@@ -16,10 +16,11 @@ const Typebox = (props) => {
     }
   };
 
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = async (event) => {
     event.preventDefault(); // 阻止表单默认提交行为
     if (inputValue === "") return; // 如果输入框为空则不发送消息
-    if (props.handleSubmit(inputValue)) setInputValue("");
+    props.handleSubmit(inputValue);
+    setInputValue("");
   };
   return (
     <>

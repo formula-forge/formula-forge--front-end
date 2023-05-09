@@ -7,6 +7,7 @@ function Add(props) {
   const [moreInfo, setMoreInfo] = useState({});
   const [classification, setClassification] = useState("");
   const [nickname, setNickname] = useState("");
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
   useEffect(() => {
     if (props.addInfo.receiver) {
       userService
@@ -29,7 +30,7 @@ function Add(props) {
     }
     setClassification("");
     setNickname("");
-  }, [props]);
+  }, [props, refreshTrigger]);
   const postedAdd = () => {
     return (
       <div>
@@ -60,9 +61,11 @@ function Add(props) {
     )
       .then((res) => {
         console.log(res);
+        setRefreshTrigger(!refreshTrigger);
       })
       .catch((err) => {
         console.log(err);
+        alert("操作失败");
       });
   };
   const receivedAdd = () => {

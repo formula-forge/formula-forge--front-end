@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import friendService from "../../services/friend-service";
+import userService from "../../services/user-service";
 import { nanoid } from "@reduxjs/toolkit";
 import UserAvatar from "../Users/UserAvatar";
+import UserContext from "../../Context";
 import "./AddList.css";
 
 function AddList(props) {
+  const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
   const [postedList, setPostedList] = useState([]);
   const [receivedList, setReceivedList] = useState([]);
+  const [searchId, setSearchId] = useState("");
 
   const handleSetTarget = (addInfo) => {
     props.setTarget(addInfo);
@@ -67,8 +71,22 @@ function AddList(props) {
       </div>
     );
   });
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setGetUserInfoId(searchId);
+    setUserInfoDisplay(true);
+  };
+
   return (
     <div>
+      <form onSubmit={handleSearch} className="search">
+        <input
+          type="number"
+          placeholder="输入用户ID"
+          value={searchId}
+          onChange={(e) => setSearchId(e.target.value)}
+        />
+      </form>
       <h2>已发送</h2>
       {allPostedList}
       <h2>已接收</h2>
