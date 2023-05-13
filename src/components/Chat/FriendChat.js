@@ -86,6 +86,8 @@ const Chat = (props) => {
         console.log(err);
         setLoading(false);
         setMessages(gottenMessages);
+        if (!err.response || err.response.status !== 404)
+          alert("获取云端聊天记录失败！");
       });
   }, [user, friend]); //当friend改变时重新录入聊天记录
 
@@ -155,11 +157,19 @@ const Chat = (props) => {
       makeTime(message.timestamp).substring(0, 10) !==
       makeTime(Date.now()).substring(0, 10)
     ) {
-      return oneMessage(
-        makeTime(message.timestamp), //不是今天则全部显示
-        message.sender,
-        message.content
-      );
+      if (
+        index === 0 || //防止数组越界
+        makeTime(message.timestamp).substring(0, 10) !== //检测日期是否相同
+          makeTime(messages[index - 1].timestamp).substring(0, 10)
+      )
+        return oneMessage(
+          // 日期不同则显示日期的年月日
+          makeTime(message.timestamp).substring(0, 10),
+          message.sender,
+          message.content
+        );
+      // 日期相同则不显示日期
+      else return oneMessage("", message.sender, message.content);
     } else {
       if (
         index === 0 || //防止数组越界

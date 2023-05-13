@@ -6,7 +6,9 @@ import "./Formula.css";
 function Formula(props) {
   const [formula, setFormula] = React.useState({});
   const [formulaClass, setFormulaClass] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   useEffect(() => {
+    setLoading(true);
     formulaService
       .getAll()
       .then((response) => {
@@ -45,15 +47,26 @@ function Formula(props) {
           ...response.data.formula,
         });
         setFormulaClass("默认");
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
+  const handleFormulaClick = (formula) => {
+    props.onFormula(formula);
+  };
   const allFormula = (formula[formulaClass] ? formula[formulaClass] : []).map(
     (formula) => {
       return (
-        <div className="formula-item" key={nanoid()}>
+        <div
+          className="formula-item"
+          key={nanoid()}
+          onClick={() => {
+            handleFormulaClick(formula.formula);
+          }}
+          type="button"
+        >
           <p>{formula.name}</p>
           <p>{formula.face}</p>
         </div>
@@ -67,6 +80,7 @@ function Formula(props) {
           onClick={() => {
             setFormulaClass(formulaClass);
           }}
+          type="button"
         >
           {formulaClass}
         </button>
@@ -75,8 +89,10 @@ function Formula(props) {
   });
   return (
     <div className="formula-container">
-      <div className="formula-item-container">{allFormula}</div>
-      <div className="formula-class-container">{allClass}</div>
+      <div className="formula-item-container">
+        {!loading ? allFormula : "加载中..."}
+      </div>
+      <div className="formula-class-container">{!loading ? allClass : ""}</div>
     </div>
   );
 }

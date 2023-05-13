@@ -11,7 +11,7 @@ function AddList(props) {
   const [postedList, setPostedList] = useState([]);
   const [receivedList, setReceivedList] = useState([]);
   const [searchId, setSearchId] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const handleSetTarget = (addInfo) => {
     props.setTarget(addInfo);
     props.setTargetType("add");
@@ -19,12 +19,14 @@ function AddList(props) {
   };
 
   useEffect(() => {
+    setLoading(true);
     friendService
       .getAllNewFriend()
       .then((res) => {
         console.log(res.data);
         if (res.data.posted) setPostedList([...res.data.posted]);
         if (res.data.received) setReceivedList([...res.data.received]);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -79,20 +81,26 @@ function AddList(props) {
 
   return (
     <div>
-      <form onSubmit={handleSearch} className="search">
-        <input
-          type="number"
-          placeholder="搜索用户ID"
-          value={searchId}
-          onChange={(e) => setSearchId(e.target.value)}
-        />
-      </form>
-      <div className="all-add">
-        <h2>已发送</h2>
-        {allPostedList}
-        <h2>已接收</h2>
-        {allReceivedList}
-      </div>
+      {loading ? (
+        <div className="loading">加载中...</div>
+      ) : (
+        <>
+          <form onSubmit={handleSearch} className="search">
+            <input
+              type="number"
+              placeholder="搜索用户ID"
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+            />
+          </form>
+          <div className="all-add">
+            <h2>已发送</h2>
+            {allPostedList}
+            <h2>已接收</h2>
+            {allReceivedList}
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -97,3 +97,23 @@ nav .nav-content {
   color: red;
   font-weight: bold;
 }
+.info-setting-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  color: #000000;
+  background-color: #ffffff00;
+  font-size: 24px;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+.info-setting-button::before {
+  content: "\2699";
+}

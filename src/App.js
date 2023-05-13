@@ -13,6 +13,7 @@ import UserAvatar from "./components/Users/UserAvatar";
 import ChatList from "./components/ChatList/ChatList";
 import AddList from "./components/Add/AddList";
 import Add from "./components/Add/Add";
+import InfoSetting from "./components/Setting/InfoSetting";
 
 function App() {
   const [messageChangeTrigger, setMessageChangeTrigger] = useState(false);
@@ -264,6 +265,8 @@ function App() {
       );
     } else if (targetType === "group") return null;
     else if (targetType === "add") return <Add user={user} addInfo={target} />;
+    else if (targetType === "info-setting")
+      return <InfoSetting user={user} myname={myname} />;
   }
   const notLoggedPage = () => {
     return (
@@ -376,6 +379,14 @@ function App() {
               <UserAvatar userId={user} type="me-avatar" />
               <div className="me-info">
                 <p className="myname">{myname + "(" + user + ")"}</p>
+                <button
+                  className="info-setting-button"
+                  onClick={() => {
+                    setTargetType("info-setting");
+                    setTargetName(null);
+                    setTarget(null);
+                  }}
+                />
               </div>
             </div>
           </nav>
