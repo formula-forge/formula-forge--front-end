@@ -1,7 +1,7 @@
 .formula-container {
   display: flex;
   position: absolute;
-  bottom: 50%;
+  bottom: 10%;
   right: 0;
   border: 1px solid #ccc;
   flex-direction: column;
@@ -10,8 +10,11 @@
 .formula-class-container {
   display: flex;
   flex-direction: row;
-  width: 200px;
-  overflow-x: auto;
+  width: 300px;
+  overflow: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  background-color: #e7e7e7;
 }
 .formula-item-container {
   display: flex;
@@ -32,4 +35,44 @@
   word-wrap: break-word; /* 允许单词换行 */
   word-break: break-all; /* 打断超长单词 */
   margin: 4px;
+}
+.add-formula-container {
+  position: fixed; /* 使用固定定位，使元素相对于视口定位 */
+  top: 50%; /* 距离视口顶部的距离 */
+  left: 50%; /* 距离视口左侧的距离 */
+  transform: translate(-50%, -50%); /* 将元素自身的中心点定位在视口的中心 */
+  width: 300px; /* 悬浮窗的宽度 */
+  height: 200px; /* 悬浮窗的高度 */
+  background-color: #f1f1f1; /* 悬浮窗的背景颜色 */
+  border: 1px solid #ccc; /* 悬浮窗的边框样式 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 悬浮窗的阴影效果 */
+  z-index: 9999; /* 确保悬浮窗在其他元素之上 */
+}
+.add-class-container {
+  position: fixed; /* 使用固定定位，使元素相对于视口定位 */
+  top: 50%; /* 距离视口顶部的距离 */
+  left: 50%; /* 距离视口左侧的距离 */
+  transform: translate(-50%, -50%); /* 将元素自身的中心点定位在视口的中心 */
+  width: 300px; /* 悬浮窗的宽度 */
+  height: 200px; /* 悬浮窗的高度 */
+  background-color: #f1f1f1; /* 悬浮窗的背景颜色 */
+  border: 1px solid #ccc; /* 悬浮窗的边框样式 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 悬浮窗的阴影效果 */
+  z-index: 9999; /* 确保悬浮窗在其他元素之上 */
+}
+.formula-class button {
+  border: 0;
+  height: 28px;
+  background-color: #e7e7e7;
+  color: #000;
+  padding: 4px;
+}
+.formula-class button:hover {
+  background-color: #ccc;
+}
+.choosing-formula-class button {
+  background-color: #ffffff;
+}
+.choosing-formula-class button:hover {
+  background-color: #ffffff;
 }

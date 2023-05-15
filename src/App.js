@@ -16,7 +16,6 @@ import Add from "./components/Add/Add";
 import InfoSetting from "./components/Setting/InfoSetting";
 
 function App() {
-  const [messageChangeTrigger, setMessageChangeTrigger] = useState(false);
   const [navLink, setnavLink] = useState("chat");
   const [target, setTarget] = useState("");
   const [targetName, setTargetName] = useState("");
@@ -260,7 +259,6 @@ function App() {
           nickname={targetName}
           handleSubmit={handleSubmit}
           newMessage={newMessage}
-          messageChangeTrigger={messageChangeTrigger}
         />
       );
     } else if (targetType === "group") return null;
@@ -310,9 +308,6 @@ function App() {
       </div>
     );
   };
-  useEffect(() => {
-    setMessageChangeTrigger((prev) => !prev);
-  }, [navLink]);
   const navLinkChoose = () => {
     return (
       <div>

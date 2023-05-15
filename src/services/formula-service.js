@@ -4,8 +4,8 @@ class FormulaService {
   getAll() {
     return http.get("/formula");
   }
-  putAll() {
-    return http.put("/formula");
+  putAll(allFormula) {
+    return http.put("/formula", allFormula);
   }
 }
 

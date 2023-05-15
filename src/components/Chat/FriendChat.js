@@ -25,8 +25,8 @@ function makeTime(timestampStr) {
 const Chat = (props) => {
   const [loading, setLoading] = useState(true); // 是否正在加载
   const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
+  const [scriptTrigger, setScriptTrigger] = useState(false); // 用于触发MathJax的重渲染
   const user = Number(props.user);
-  const myname = props.myname;
   const friend = Number(props.friend);
   const nickname = props.nickname;
   const newMessage = props.newMessage;
@@ -130,7 +130,7 @@ const Chat = (props) => {
       // 滚动到聊天记录的底部
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     };
-  }, [messages, props.messageChangeTrigger]);
+  }, [messages, scriptTrigger]);
 
   // 用于渲染一条消息
   function oneMessage(time, sender, content) {
@@ -205,7 +205,7 @@ const Chat = (props) => {
             <>{allChatMessages}</>
           )}
         </div>
-        <Typebox handleSubmit={handleSubmit} />
+        <Typebox handleSubmit={handleSubmit} setScriptTrigger={setScriptTrigger} />
       </div>
     </div>
   );
