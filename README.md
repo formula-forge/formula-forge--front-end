@@ -8,51 +8,6 @@
 
 这是一个使用 React 框架搭建的 web 应用前端
 
-## 更新进度:
-
-### 23.4.18
-
-构建了好友列表与聊天界面
-
-- 好友列表是硬编码的, 存储在 src\components\FriendList\test.json
-- 聊天记录是本地存储的, 初始值硬编码, 存储在 src\components\Chat\test.json
-- userID 与用户昵称的对应是硬编码的, 存储在 src\assets\userID\test.json
-- 初步支持公式输入, `$...$ 与 $$...$$` 两种形式
-
-### 23.4.18 2
-
-修改了聊天页面的 WebSocket 代码大致的交互内容:(C-Client; S-Server, S 在接受消息后判断
-其中的 type)
-
-- 与好友聊天:
-  - C: 初次建立连接,发送字符化的 message,内容如下:
-  ```
-  message = {
-      type: "connect-to-friend",
-      clientID: user,
-      token: user, //用于验证身份的token, 由后端生成, 此处为测试用
-      friendID: friend,
-  };
-  ```
-  - S: 判断 type 为 "connect-to-friend" 后检查 token 是否正确, 错误则断开连接, 正确则
-    将当前 C 加入已连接的列表, 且设置目标类型为好友
-- 发送消息:
-  - C: 发送字符化的 message,内容如下:
-  ```
-  const message = {
-      type: "message",
-      sender: user,
-      receiver: friend,
-      content: inputValue,
-      timestamp: formattedDateTime,
-    };
-  ```
-  - S: 判断 type 为"message"后:
-    - 若当前的目标类型为好友, 则检查已连接列表内是否有目标, 有则向该 C 发送相同的
-      message, 没有的情况我暂时没考虑
-    - 若当前的目标类型为群组, 则向在该群组内的 C 发送消息
-
-## 下面是 React 开发自带的 Available Scripts
 
 In the project directory, you can run:
 
