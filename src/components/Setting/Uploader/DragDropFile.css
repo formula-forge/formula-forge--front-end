@@ -1,0 +1,27 @@
+#file-area {
+    height: 10rem;
+    width: 15rem;
+    max-width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background-color: #eee;
+    border-radius: 1rem;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #888;
+}
+
+#file-input {
+    display: none;
+}
+
+#file-area.drag-active {
+    background-color: #fff;
+}
+
+.preview{
+    width: 30%;
+}

@@ -28,6 +28,7 @@ function App() {
   const [registering, setRegistering] = useState(false);
   const [user, setUser] = useState(null);
   const [myname, setMyname] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [getUserInfoId, setGetUserInfoId] = useState(null);
   const [userInfoDisplay, setUserInfoDisplay] = useState(false);
   useEffect(() => {
@@ -85,6 +86,10 @@ function App() {
               setMyname(response.data.data.name);
               console.log(
                 "获取自己的用户名成功, 用户名: " + response.data.data.name
+              );
+              setAvatar(response.data.data.avatar);
+              console.log(
+                "获取自己的头像成功, 头像: " + response.data.data.avatar
               );
             })
             .catch((e) => {
@@ -371,7 +376,7 @@ function App() {
           <nav>
             <div className="nav-content">{chooseNav()}</div>
             <div className="me">
-              <UserAvatar userId={user} type="me-avatar" />
+              <UserAvatar avatar={avatar} userId={user} type="me-avatar" />
               <div className="me-info">
                 <p className="myname">{myname + "(" + user + ")"}</p>
                 <button

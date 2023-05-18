@@ -16,6 +16,7 @@ function UserInfo(props) {
   const [addNickname, setAddNickname] = useState("");
   const userId = props.userId;
   const setDisplay = props.setDisplay;
+  const avatar = props.avatar;
   React.useEffect(() => {
     setLoading(true);
     userService
