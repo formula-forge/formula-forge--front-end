@@ -1,0 +1,21 @@
+.group-setting-button {
+  position: absolute;
+  right: 8px;
+  border: 0;
+  border-radius: 4px;
+  background-color: #e5e5e5;
+  padding: 4px;
+}
+.group-setting-button:hover {
+  background-color: #ccc;
+}
+.group-title {
+  height: 3vh;
+  margin-top: 2vh;
+  margin-bottom: 1.5vh;
+  text-align: center;
+}
+.group-title:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -41,7 +41,6 @@ nav {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 main {
-  padding: 8px;
   border-radius: 1vw;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -68,6 +67,10 @@ nav .nav-content {
   display: flex;
   flex-direction: column;
   margin-left: 5%;
+}
+.me .me-info p {
+  margin: auto;
+  padding: auto;
 }
 .me .myname {
   display: inline-block;
@@ -101,12 +104,13 @@ nav .nav-content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
   border: none;
   border-radius: 50%;
   color: #000000;
-  background-color: #ffffff00;
+  background-color: #9090907e;
   font-size: 24px;
   line-height: 1;
   text-align: center;
@@ -116,4 +120,9 @@ nav .nav-content {
 }
 .info-setting-button::before {
   content: "\2699";
+}
+.info-setting-button:hover {
+  background-color: #909090;
+  /* 取消指针 */
+  cursor: default;
 }

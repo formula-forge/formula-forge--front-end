@@ -9,6 +9,10 @@
   margin-bottom: 1.5vh;
   text-align: center;
 }
+.friend-title:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .message-box {
   height: 86vh;
   display: flex;
@@ -20,8 +24,10 @@
   border-bottom: 2px solid gainsboro;
   border-top: 2px solid gainsboro;
   overflow-y: auto;
+  overflow-x: hidden;
 }
-.my-saying {
+.one-message .my-saying {
+  width: 100%;
   margin-top: 8px;
   margin-bottom: 8px;
   display: flex;
@@ -29,22 +35,41 @@
   justify-content: flex-end;
 }
 
-.friend-saying {
+.one-message .friend-saying {
+  width: 100%;
   margin-top: 8px;
   margin-bottom: 8px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
-
-.saying {
+.one-message .name {
+  color: #999;
+  margin-left: 10px;
+}
+.one-message .friend-saying .name-and-saying-box {
+  width: calc(100% - 80px);
+  flex-direction: column;
+  display: flex;
+  align-items: start;
+}
+.one-message .my-saying .name-and-saying-box {
+  width: calc(100% - 80px);
+  flex-direction: column;
+  display: flex;
+  align-items: end;
+}
+.one-message .saying {
   margin: 8px 10px;
+  margin-top: 4px;
   padding: 10px;
   border-radius: 10px;
   background-color: #f2f2f2;
   white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 100%;
 }
-.time {
+.one-message .time {
   text-align: center;
   margin: 0;
 }

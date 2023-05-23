@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import sessionService from "../../services/session-service";
 import OneChat from "./OneChat";
 import SessionMenu from "../ContextMenu/SessionMenu";
-import { nanoid } from "@reduxjs/toolkit";
 import "./ChatList.css";
 
 function ChatList(props) {
@@ -23,6 +22,7 @@ function ChatList(props) {
         let newSessions = res.data.sessions;
         //按照时间排序
         newSessions.sort((a, b) => b.time - a.time);
+        console.log(newSessions);
         setSessions(newSessions);
         setLoading(false);
       })
@@ -57,24 +57,22 @@ function ChatList(props) {
         console.log(err);
       });
   };
-  const allSessions = useMemo(() => {
-    return sessions.map((session) => {
-      return (
-        <OneChat
-          key={session.id}
-          session={session}
-          setTarget={props.setTarget}
-          setTargetType={props.setTargetType}
-          setTargetName={props.setTargetName}
-          setRefreshTrigger={setRefreshTrigger}
-          setChoosing={setChoosing}
-          setShowContextMenu={setShowContextMenu}
-          setContextMenuX={setContextMenuX}
-          setContextMenuY={setContextMenuY}
-        />
-      );
-    });
-  }, [sessions]);
+  const allSessions = sessions.map((session) => {
+    return (
+      <OneChat
+        key={session.id}
+        session={session}
+        setTarget={props.setTarget}
+        setTargetType={props.setTargetType}
+        setTargetName={props.setTargetName}
+        setRefreshTrigger={setRefreshTrigger}
+        setChoosing={setChoosing}
+        setShowContextMenu={setShowContextMenu}
+        setContextMenuX={setContextMenuX}
+        setContextMenuY={setContextMenuY}
+      />
+    );
+  });
   return (
     <div className="chat-list">
       {!loading ? allSessions : <div className="loading">加载中...</div>}

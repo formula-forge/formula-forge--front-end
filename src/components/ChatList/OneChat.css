@@ -1,5 +1,7 @@
 .one-chat {
   padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .one-chat:hover {
   background-color: #f2f2f2;
@@ -8,12 +10,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
 }
 .chat-title {
   font-size: medium;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .chat-time {
   font-size: small;
   color: #999;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+.chat-latest {
+  color: rgb(157, 157, 157);
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.chat-unread {
+  margin-left: 2px;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: red;
+  border-radius: 100%;
+  height: 16px;
+  width: 16px;
+  font-size: 12px;
+  text-align: center;
+  line-height: 16px;
+  flex-shrink: 0;
 }

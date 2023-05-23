@@ -7,17 +7,21 @@ function UserAvatar(props) {
   return (
     <div
       onClick={() => {
+        if (props.blockOpenInfo) return;
         setGetUserInfoId(props.userId);
         setUserInfoDisplay(true);
       }}
       style={{ display: "inline-block" }}
     >
       {props.avatar ? (
-        <img src={"https://home.xn--qby.cf/img/" + props.avatar + ".png"} alt="avatar" className={props.type} />
+        <img
+          src={"https://home.xn--qby.cf/img/" + props.avatar + ".png"}
+          alt="avatar"
+          className={props.type}
+        />
       ) : (
         <img
-          //src={"https://www.bing.com/sa/simg/facebook_sharing_5.png"}
-          src={"https://home.xn--qby.cf/img/avatar/user/"+props.userId}
+          src={"https://home.xn--qby.cf/img/avatar/user/" + props.userId}
           alt="avatar"
           className={props.type}
         />

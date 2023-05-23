@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import userService from "../../services/user-service";
 import "./InfoSetting.css";
-import DragDropFile from "./Uploader/DragDropFile"
+import DragDropFile from "./Uploader/DragDropFile";
 
 function InfoSetting() {
   const [name, setName] = useState("");
@@ -16,7 +16,6 @@ function InfoSetting() {
     userService
       .getYourself()
       .then((res) => {
-        console.log(res.data);
         setName(res.data.data.name);
         setDetail(res.data.data.detail);
         setPhone(res.data.data.phone);
@@ -62,6 +61,7 @@ function InfoSetting() {
   };
   return (
     <div className="info-setting">
+      <h1>个人信息设置</h1>
       {loading ? (
         <div>加载中...</div>
       ) : (
@@ -71,7 +71,7 @@ function InfoSetting() {
           <label htmlFor="detail">手机号</label>
           <input className="phone" value={phone} onChange={handlePhoneChange} />
           <label htmlFor="avatar">头像</label>
-          <DragDropFile value={avatar} onChange={handleAvatarChange}/>
+          <DragDropFile value={avatar} onChange={handleAvatarChange} />
           <label htmlFor="motto">个性签名</label>
           <input className="motto" value={motto} onChange={handleMottoChange} />
           {/*isProtected是布尔值*/}

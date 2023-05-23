@@ -1,11 +1,11 @@
 import React from "react";
-import "./oneFriend.css";
+import "./OneFriend.css";
 import UserAvatar from "../Users/UserAvatar.js";
 import { useContext } from "react";
 import UserContext from "../../Context";
 
 function OneFriend(props) {
-  const { setGetUserInfoId, setUserInfoDisplay} = useContext(UserContext);
+  const { setGetUserInfoId, setUserInfoDisplay } = useContext(UserContext);
   const handleClick = () => {
     setGetUserInfoId(props.userId);
     setUserInfoDisplay(true);

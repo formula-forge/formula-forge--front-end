@@ -1,6 +1,6 @@
 import FriendService from "../../services/friend-service";
 import React, { useState, useEffect } from "react";
-import OneFriend from "./oneFriend";
+import OneFriend from "./OneFriend";
 import { nanoid } from "nanoid";
 import "./FriendList.css";
 import V_arrow from "../../assets/icon/V_arrow.png";
@@ -12,13 +12,12 @@ function FriendList(props) {
 
   // 首次渲染时，读取好友列表
   useEffect(() => {
-    let friendsData;
+    setLoading(true);
     FriendService.getAll()
       .then((res) => {
-        friendsData = res.data.entries;
         let tmpFriendsClass = {};
         setFriends(
-          friendsData.map((friend) => {
+          res.data.entries.map((friend) => {
             tmpFriendsClass = {
               ...tmpFriendsClass,
               [friend.classification ? friend.classification : "我的好友"]: false, //默认不展开
@@ -34,7 +33,6 @@ function FriendList(props) {
       })
       .catch((err) => {
         console.log("获取好友列表错误: " + err);
-        return;
       });
   }, []);
   // 渲染好友列表

@@ -1,15 +1,10 @@
-.one-friend {
+.one-group {
   padding: 5px;
   padding-left: 1vw;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.one-friend p {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.one-friend:hover {
+.one-group:hover {
   background-color: #f2f2f2;
 }

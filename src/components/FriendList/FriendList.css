@@ -20,7 +20,3 @@
 .V-arrow-icon.open {
   transform: rotate(90deg);
 }
-.class-content {
-  padding-left: 1vw;
-  transition: all 0.3s ease;
-}

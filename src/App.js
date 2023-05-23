@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import FriendList from "./components/FriendList/FriendList";
-import Chat from "./components/Chat/FriendChat";
+import FriendChat from "./components/Chat/FriendChat";
 import cookie from "react-cookies";
 import logService from "./services/log-service";
 import Log from "./components/Log/Log";
@@ -13,7 +13,11 @@ import UserAvatar from "./components/Users/UserAvatar";
 import ChatList from "./components/ChatList/ChatList";
 import AddList from "./components/Add/AddList";
 import Add from "./components/Add/Add";
+import GroupList from "./components/GroupList/GroupList";
+import GroupChat from "./components/Chat/GroupChat";
 import InfoSetting from "./components/Setting/InfoSetting";
+import GroupSetting from "./components/Setting/GroupSetting";
+import GroupMember from "./components/Chat/GroupMember";
 
 function App() {
   const [navLink, setnavLink] = useState("chat");
@@ -31,6 +35,7 @@ function App() {
   const [avatar, setAvatar] = useState(null);
   const [getUserInfoId, setGetUserInfoId] = useState(null);
   const [userInfoDisplay, setUserInfoDisplay] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!logged) return;
     // 创建 WebSocket 连接
@@ -64,6 +69,7 @@ function App() {
       console.log("ws接受到信息: " + event.data);
       try {
         const code = JSON.parse(event.data).code;
+        const msg = JSON.parse(event.data).msg;
         if (code === 1) {
           const message = JSON.parse(event.data).message; //将接收到的字符串转换为json对象
           setNewMessage(message);
@@ -73,10 +79,9 @@ function App() {
               msg: "Acknowledged",
             })
           );
-        } else if (code === 200) {
+        } else if (code === 200 && msg === "登录成功") {
           console.log("ws连接成功");
           setLogged(true);
-
           //获取自己的用户名
           userService
             .getYourself()
@@ -88,9 +93,8 @@ function App() {
                 "获取自己的用户名成功, 用户名: " + response.data.data.name
               );
               setAvatar(response.data.data.avatar);
-              console.log(
-                "获取自己的头像成功, 头像: " + response.data.data.avatar
-              );
+              console.log("获取自己的头像成功, 头像: " + response.data.data.avatar);
+              setLoading(false);
             })
             .catch((e) => {
               console.log("获取自己的用户名失败, 错误信息: " + e);
@@ -131,8 +135,8 @@ function App() {
   }
   useEffect(() => {
     if (cookie.load("token") !== undefined) {
-      setConnectTrigger(true);
       setLogged(true);
+      setLoading(true);
     }
   }, []);
   function handleSubmit(message) {
@@ -167,6 +171,7 @@ function App() {
         setUser(response.data.userId);
         setLogging(false);
         setConnectTrigger(!connectTrigger);
+        setLoading(true);
       })
       .catch((e) => {
         console.log("http登录失败, 错误信息: " + JSON.stringify(e.response.data));
@@ -233,7 +238,13 @@ function App() {
         />
       );
     } else if (navLink === "group") {
-      return null;
+      return (
+        <GroupList
+          setTarget={setTarget}
+          setTargetType={setTargetType}
+          setTargetName={setTargetName}
+        />
+      );
     } else if (navLink === "chat") {
       return (
         <ChatList
@@ -257,7 +268,7 @@ function App() {
   function chooseMain() {
     if (targetType === "friend" && target && targetName) {
       return (
-        <Chat
+        <FriendChat
           user={user}
           myname={myname}
           friend={target}
@@ -266,10 +277,26 @@ function App() {
           newMessage={newMessage}
         />
       );
-    } else if (targetType === "group") return null;
-    else if (targetType === "add") return <Add user={user} addInfo={target} />;
+    } else if (targetType === "group") {
+      return (
+        <GroupChat
+          user={user}
+          myname={myname}
+          groupId={target}
+          groupName={targetName}
+          handleSubmit={handleSubmit}
+          newMessage={newMessage}
+          setTargetType={setTargetType}
+        />
+      );
+    } else if (targetType === "add") return <Add user={user} addInfo={target} />;
     else if (targetType === "info-setting")
       return <InfoSetting user={user} myname={myname} />;
+    else if (targetType === "group-setting") {
+      return <GroupSetting groupId={target} setTargetType={setTargetType} />;
+    } else if (targetType === "group-member") {
+      return <GroupMember groupId={target} setTargetType={setTargetType} />;
+    }
   }
   const notLoggedPage = () => {
     return (
@@ -355,6 +382,13 @@ function App() {
     );
   };
   const loggedPage = () => {
+    if (loading)
+      return (
+        <div>
+          加载中...
+          <button onClick={handleLogout}>登出</button>
+        </div>
+      );
     return (
       <div
         style={{ display: "flex", flex: "auto" }}

@@ -35,7 +35,7 @@ function Add(props) {
     return (
       <div>
         <h2>已发送好友申请</h2>
-        <UserAvatar type="big-avatar" userId={props.addInfo.sender} />
+        <UserAvatar type="big-avatar" userId={props.addInfo.receiver} />
         <div>
           <p>{moreInfo.userId}</p>
           <p>{moreInfo.name}</p>
@@ -97,7 +97,12 @@ function Add(props) {
       </div>
     );
   };
-  return <div>{props.addInfo.receiver ? postedAdd() : receivedAdd()}</div>;
+  return (
+    <div>
+      {props.addInfo.receiver ? postedAdd() : receivedAdd()}
+      {console.log(props.addInfo)}
+    </div>
+  );
 }
 
 export default Add;

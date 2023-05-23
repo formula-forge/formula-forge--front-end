@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import getUserName from "../../special/getUserName";
-import getGroupName from "../../special/getGroupName";
 import "./OneChat.css";
 import userService from "../../services/user-service";
 
@@ -21,22 +19,19 @@ function makeTime(timestampStr) {
 
 function OneChat(props) {
   const [name, setName] = React.useState("");
-  async function getName() {
-    if (props.session.type === "user") {
-      let tmpname = await getUserName(props.session.id);
-      if (props.session.nickname) {
-        tmpname = props.session.nickname + "(" + tmpname + ")";
-      }
-      setName(tmpname);
-    } else {
-      const tmpname = await getGroupName(props.session.id);
-      setName(tmpname);
-    }
-  }
+  const [unRead, setUnRead] = React.useState(props.session.unRead);
   useEffect(() => {
-    getName();
+    if (props.session.nickname === "" || !props.session.nickname) {
+      if (props.session.type === "user") {
+        userService.getInfo(props.session.id).then((res) => {
+          setName(res.data.data.name);
+        });
+      }
+    }
+    setName(props.session.nickname);
   }, [props.session.id, props.session.type]);
   const handleClick = () => {
+    setUnRead(0);
     props.setTarget(props.session.id);
     if (props.session.type === "user") {
       props.setTargetType("friend");
@@ -74,10 +69,10 @@ function OneChat(props) {
         <div className="chat-title">{name}</div>
         <div className="chat-time">{enhancedTime(makeTime(props.session.time))}</div>
       </div>
-      <div className="chat-latest">{props.session.latest.replace(/\$/g, "")}</div>
-      {props.session.unread ? (
-        <div className="chat-unread">{props.session.unread}</div>
-      ) : null}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="chat-latest">{props.session.latest.replace(/\$/g, "")}</div>
+        {unRead ? <div className="chat-unread">{props.session.unread}</div> : null}
+      </div>
     </div>
   );
 }
