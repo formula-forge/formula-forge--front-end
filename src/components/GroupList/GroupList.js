@@ -18,7 +18,21 @@ function GroupList(props) {
       .catch((err) => {
         console.log("获取群组列表错误: " + err);
       });
-  }, []);
+  }, [props.groupListRefreshTrigger]);
+  useEffect(() => {
+    if (props.targetType === "") {
+      setLoading(true);
+      groupService
+        .getAll()
+        .then((res) => {
+          setGroups(res.data.entries);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("获取群组列表错误: " + err);
+        });
+    }
+  }, [props.targetType]);
   const handleChangeTarget = (id, name) => {
     props.setTarget(id);
     props.setTargetType("group");
@@ -35,7 +49,17 @@ function GroupList(props) {
     );
   });
 
-  return <div>{loading ? <h1>加载中...</h1> : allGroups}</div>;
+  return (
+    <div>
+      <button
+        className="group-create-button"
+        onClick={() => props.setTargetType("group-create")}
+      >
+        创建群组
+      </button>
+      {loading ? <h1>加载中...</h1> : allGroups}
+    </div>
+  );
 }
 
 export default GroupList;

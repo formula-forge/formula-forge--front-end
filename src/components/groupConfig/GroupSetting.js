@@ -1,6 +1,6 @@
 import React from "react";
 import groupService from "../../services/group-service";
-import DragDropFile from "./Uploader/DragDropFile";
+import DragDropFile from "../Setting/Uploader/DragDropFile";
 import { useState, useEffect } from "react";
 import "./GroupSetting.css";
 
@@ -9,6 +9,7 @@ function GroupSetting(props) {
   const [groupName, setGroupName] = useState("");
   const [groupAvatar, setGroupAvatar] = useState("");
   const [loading, setLoading] = useState(true);
+  const [confirmDelete, setConfirmDelete] = useState(false); // 确认删除
   useEffect(() => {
     setLoading(true);
     groupService
@@ -40,6 +41,34 @@ function GroupSetting(props) {
         console.log(err);
       });
   };
+  const handleDeleteGroup = () => {
+    groupService
+      .deleteGroup(groupId)
+      .then((res) => {
+        console.log(res);
+        alert("删除成功");
+        props.setTargetType("");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("删除失败");
+      });
+  };
+  const deleteGroup = (
+    <div className="delete-group-background">
+      <div className="delete-group-container">
+        <h2>确认删除群组？</h2>
+        <div className="two-buttons">
+          <button className="confirm-delete" onClick={() => handleDeleteGroup()}>
+            确认
+          </button>
+          <button className="cancel-delete" onClick={() => setConfirmDelete(false)}>
+            取消
+          </button>
+        </div>
+      </div>
+    </div>
+  );
   return (
     <div className="group-setting">
       <button className="back" onClick={() => props.setTargetType("group-member")}>
@@ -49,7 +78,7 @@ function GroupSetting(props) {
       {loading ? (
         <h4>加载中...</h4>
       ) : (
-        <form onSubmit={handleSave} className="group-setting-form">
+        <form onSubmit={handleSave} className="default-form">
           <label htmlFor="name">群组名</label>
           <input type="text" value={groupName} onChange={handleGroupNameChange} />
           <label htmlFor="avatar">头像</label>
@@ -58,8 +87,18 @@ function GroupSetting(props) {
           <button className="submit-button" type="submit">
             提交
           </button>
+          {loading ? null : (
+            <button
+              type="button"
+              className="delete-button"
+              onClick={() => setConfirmDelete(true)}
+            >
+              解散
+            </button>
+          )}
         </form>
       )}
+      {confirmDelete ? deleteGroup : null}
     </div>
   );
 }

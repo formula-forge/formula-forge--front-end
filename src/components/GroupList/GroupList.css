@@ -1,3 +1,16 @@
 .group-list {
   overflow-y: auto;
 }
+.group-create-button {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+}
+.group-create-button:hover {
+  background-color: #f2f2f2;
+}

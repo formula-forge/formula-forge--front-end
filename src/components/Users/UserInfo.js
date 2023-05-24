@@ -163,7 +163,7 @@ function UserInfo(props) {
       return (
         <div>
           <div className="user-info-avatar">
-            <UserAvatar type="big-avatar" userId={userId} />
+            <UserAvatar type="big-avatar" userId={userId} blockOpenInfo={true} />
           </div>
           <div className="user-info-name">
             <h3>{userInfo.name + "(" + userInfo.userId + ")"}</h3>

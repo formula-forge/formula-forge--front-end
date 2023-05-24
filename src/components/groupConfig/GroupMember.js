@@ -8,7 +8,7 @@ function GroupMember(props) {
   const [allMembers, setAllMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
-
+  const [listRefreshTrigger, setListRefreshTrigger] = useState(false); // 用于刷新列表
   useEffect(() => {
     setLoading(true);
     groupService
@@ -29,12 +29,13 @@ function GroupMember(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [props.groupId]);
+  }, [props.groupId, listRefreshTrigger]);
   const handleDeleteMember = (userId) => {
     groupService
       .deleteMember(props.groupId, userId)
       .then((res) => {
         console.log(res);
+        setListRefreshTrigger(!listRefreshTrigger);
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +45,7 @@ function GroupMember(props) {
     <div key={nanoid()} className="member">
       <UserAvatar userId={member.userId} avatar={member.avatar} type="list-avatar" />
       <span>{member.name}</span>
-      {isOwner && (
+      {isOwner && member.userId !== props.user && (
         <button className="delete" onClick={() => handleDeleteMember(member.userId)}>
           删除
         </button>

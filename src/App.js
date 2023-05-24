@@ -16,8 +16,9 @@ import Add from "./components/Add/Add";
 import GroupList from "./components/GroupList/GroupList";
 import GroupChat from "./components/Chat/GroupChat";
 import InfoSetting from "./components/Setting/InfoSetting";
-import GroupSetting from "./components/Setting/GroupSetting";
-import GroupMember from "./components/Chat/GroupMember";
+import GroupSetting from "./components/groupConfig/GroupSetting";
+import GroupMember from "./components/groupConfig/GroupMember";
+import GroupCreate from "./components/groupConfig/GroupCreate";
 
 function App() {
   const [navLink, setnavLink] = useState("chat");
@@ -36,6 +37,7 @@ function App() {
   const [getUserInfoId, setGetUserInfoId] = useState(null);
   const [userInfoDisplay, setUserInfoDisplay] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [groupListRefreshTrigger, setGroupListRefreshTrigger] = useState(false);
   useEffect(() => {
     if (!logged) return;
     // 创建 WebSocket 连接
@@ -232,6 +234,7 @@ function App() {
     if (navLink === "friend") {
       return (
         <FriendList
+          targetType={targetType}
           setTarget={setTarget}
           setTargetType={setTargetType}
           setTargetName={setTargetName}
@@ -240,14 +243,17 @@ function App() {
     } else if (navLink === "group") {
       return (
         <GroupList
+          targetType={targetType}
           setTarget={setTarget}
           setTargetType={setTargetType}
           setTargetName={setTargetName}
+          groupListRefreshTrigger={groupListRefreshTrigger}
         />
       );
     } else if (navLink === "chat") {
       return (
         <ChatList
+          targetType={targetType}
           setTarget={setTarget}
           setTargetType={setTargetType}
           setTargetName={setTargetName}
@@ -295,7 +301,16 @@ function App() {
     else if (targetType === "group-setting") {
       return <GroupSetting groupId={target} setTargetType={setTargetType} />;
     } else if (targetType === "group-member") {
-      return <GroupMember groupId={target} setTargetType={setTargetType} />;
+      return (
+        <GroupMember groupId={target} setTargetType={setTargetType} user={user} />
+      );
+    } else if (targetType === "group-create") {
+      return (
+        <GroupCreate
+          setTargetType={setTargetType}
+          setGroupListRefreshTrigger={setGroupListRefreshTrigger}
+        />
+      );
     }
   }
   const notLoggedPage = () => {

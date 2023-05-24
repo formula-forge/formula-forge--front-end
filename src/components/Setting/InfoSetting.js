@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import userService from "../../services/user-service";
 import "./InfoSetting.css";
 import DragDropFile from "./Uploader/DragDropFile";
+import "../default.css";
 
 function InfoSetting() {
   const [name, setName] = useState("");
@@ -65,7 +66,7 @@ function InfoSetting() {
       {loading ? (
         <div>加载中...</div>
       ) : (
-        <form onSubmit={handleSubmit} className="info-setting-form">
+        <form onSubmit={handleSubmit} className="default-form">
           <label htmlFor="name">用户名</label>
           <input className="name" value={name} onChange={handleNameChange} />
           <label htmlFor="detail">手机号</label>

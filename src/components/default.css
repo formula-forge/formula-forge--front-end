@@ -1,24 +1,9 @@
-.group-setting-form {
-  padding: 20px;
-}
-.group-setting .back {
-  position: absolute;
-  margin: 10px;
-  border: 0;
-  border-radius: 4px;
-  background-color: #e5e5e5;
-  padding: 8px;
-}
-.group-setting .back:hover {
-  background-color: #ccc;
-}
-
-.group-setting h1 {
+.default-form h1 {
   text-align: center;
   font-size: 30px;
   margin-bottom: 20px;
 }
-.group-setting input {
+.default-form input {
   display: block;
   border: 2px solid #ccc;
   border-radius: 5px;
@@ -28,15 +13,35 @@
   padding: 10px;
   line-height: 1.5;
   transition: border-color 0.3s ease-in-out;
+  min-width: 300px;
 }
 
-.group-setting input:focus {
+.default-form input:focus {
   outline: none;
   border-color: #332bbc;
   background-color: #fff;
   box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
 }
-.group-setting .submit-button {
+.default-form select {
+  display: block;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  font-size: 16px;
+  color: #333;
+  padding: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.default-form select:focus {
+  outline: none;
+  border-color: #332bbc;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+}
+.default-form button {
   display: inline-block;
   padding: 10px 20px;
   border: 2px solid #332bbc;
@@ -47,10 +52,11 @@
   line-height: 1.5;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
 
-.group-setting .submit-button:hover {
+.default-form button:hover {
   background-color: #fff;
   color: #332bbc;
 }
