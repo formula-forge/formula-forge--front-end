@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import userService from "../../services/user-service";
 import "./InfoSetting.css";
 import DragDropFile from "./Uploader/DragDropFile";
-import "../default.css";
 
-function InfoSetting() {
+function InfoSetting(props) {
   const [name, setName] = useState("");
   const [detail, setDetail] = useState({});
   const [phone, setPhone] = useState("");
@@ -12,6 +11,7 @@ function InfoSetting() {
   const [motto, setMotto] = useState("");
   const [isProtected, setIsProtected] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
   useEffect(() => {
     setLoading(true);
     userService
@@ -47,18 +47,34 @@ function InfoSetting() {
   const handleIsProtectedChange = (e) => {
     setIsProtected(e.target.value);
   };
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     userService
       .changeInfo(name, detail, phone, avatar, motto, isProtected)
       .then((res) => {
         console.log(res.data);
-        alert("修改成功");
+        alert("信息修改成功");
       })
       .catch((err) => {
         console.log(err);
-        alert("修改失败");
+        alert("信息修改失败");
       });
+    if (newPassword !== "") {
+      userService
+        .changePassword(props.user, phone, newPassword)
+        .then((res) => {
+          console.log(res.data);
+          alert("密码修改成功");
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(props.user, phone, newPassword);
+          alert("密码修改失败");
+        });
+    }
   };
   return (
     <div className="info-setting">
@@ -81,6 +97,12 @@ function InfoSetting() {
             <option value={true}>需要验证</option>
             <option value={false}>不需要验证</option>
           </select>
+          <label htmlFor="newPassword">新密码</label>
+          <input
+            type="password"
+            value={newPassword}
+            onChange={handleNewPasswordChange}
+          />
           <br />
           <button type="submit">提交</button>
         </form>

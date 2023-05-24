@@ -28,43 +28,7 @@
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
-.delete-group-container {
-  position: relative;
-  max-width: 400px;
-  height: auto;
-  margin: 100px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  overflow: auto;
-  z-index: 20;
-}
-.delete-group-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.delete-group-container .confirm-delete,
-.delete-group-container .cancel-delete {
-  display: inline-block;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 1.5;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-.delete-group-container .confirm-delete:hover,
-.delete-group-container .cancel-delete:hover {
-  background-color: #ccc;
-}
-.delete-group-container .two-buttons {
-  display: flex;
-  justify-content: space-around;
-  border-top: #aeacac 1px solid;
-}
+
 .group-setting .delete-button {
   margin-left: 40px;
   display: inline-block;

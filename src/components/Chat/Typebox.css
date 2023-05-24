@@ -35,9 +35,9 @@
   align-items: center;
 }
 .formula {
-  background-color: #fdff6e;
+  background-color: #9cb0d4;
   color: #000000;
-  border: 1px solid #000000;
+  border: 0;
   width: 50px;
   height: 30px;
   margin: 8px;
@@ -47,7 +47,10 @@
   transition: background-color 0.1s ease-in-out;
 }
 .formula:hover {
-  background-color: #c9c9c9;
+  background-color: #648bd3;
+}
+.formula:active {
+  transform: translate(0, 2px);
 }
 .submit {
   background-color: #444343;
@@ -62,5 +65,25 @@
   transition: background-color 0.1s ease-in-out;
 }
 .submit:hover {
+  background-color: #636363;
+}
+.submit:active {
+  transform: translate(0, 2px);
+}
+.script-trigger-button {
+  background-color: #d8d7d7;
+  color: #000000;
+  border: none;
+  height: 30px;
+  margin: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: default;
+  transition: background-color 0.1s ease-in-out;
+}
+.script-trigger-button:hover {
   background-color: #b6b6b6;
+}
+.script-trigger-button:active {
+  transform: translate(0, 2px);
 }

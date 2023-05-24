@@ -28,6 +28,9 @@ class userService {
       isProtected,
     });
   }
+  changePassword(id, phone, newPassword) {
+    return http.put(`/user/${id}/private`, { phone, password: newPassword });
+  }
 }
 
 export default new userService();

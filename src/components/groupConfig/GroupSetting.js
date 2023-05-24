@@ -33,9 +33,10 @@ function GroupSetting(props) {
   const handleSave = (e) => {
     e.preventDefault();
     groupService
-      .updateGroupInfo(groupId, groupName, groupAvatar)
+      .updateGroup(groupId, groupName, groupAvatar)
       .then((res) => {
         console.log(res);
+        alert("修改成功!");
       })
       .catch((err) => {
         console.log(err);
@@ -55,14 +56,14 @@ function GroupSetting(props) {
       });
   };
   const deleteGroup = (
-    <div className="delete-group-background">
-      <div className="delete-group-container">
+    <div className="default-background">
+      <div className="default-container">
         <h2>确认删除群组？</h2>
         <div className="two-buttons">
-          <button className="confirm-delete" onClick={() => handleDeleteGroup()}>
+          <button className="confirm" onClick={() => handleDeleteGroup()}>
             确认
           </button>
-          <button className="cancel-delete" onClick={() => setConfirmDelete(false)}>
+          <button className="cancel" onClick={() => setConfirmDelete(false)}>
             取消
           </button>
         </div>

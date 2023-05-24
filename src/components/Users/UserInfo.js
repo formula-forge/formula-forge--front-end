@@ -87,12 +87,12 @@ function UserInfo(props) {
       );
     } else if (userInfo.type === "friend") {
       return (
-        <div className="user-info-friend">
-          <button className="user-info-chat-button" onClick={handleChat}>
+        <div className="two-buttons">
+          <button className="user-info-chat-button confirm" onClick={handleChat}>
             发送消息
           </button>
           <button
-            className="user-info-delete-button"
+            className="user-info-delete-button confirm"
             onClick={() => setDeleting(true)}
           >
             删除好友
@@ -179,6 +179,7 @@ function UserInfo(props) {
               <p>{"个性签名: " + userInfo.motto}</p>
             </div>
           ) : null}
+
           {userOperation()}
         </div>
       );
@@ -187,8 +188,8 @@ function UserInfo(props) {
     }
   }
   return (
-    <div className="user-info-background">
-      <div className="user-info-container">
+    <div className="default-background">
+      <div className="default-container">
         <button className="close-button" onClick={() => setDisplay(false)}>
           关闭
         </button>

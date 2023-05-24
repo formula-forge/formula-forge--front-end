@@ -19,6 +19,7 @@ import InfoSetting from "./components/Setting/InfoSetting";
 import GroupSetting from "./components/groupConfig/GroupSetting";
 import GroupMember from "./components/groupConfig/GroupMember";
 import GroupCreate from "./components/groupConfig/GroupCreate";
+import "./components/default.css";
 
 function App() {
   const [navLink, setnavLink] = useState("chat");
@@ -412,15 +413,6 @@ function App() {
         }}
       >
         <UserContext.Provider value={{ setGetUserInfoId, setUserInfoDisplay }}>
-          {userInfoDisplay ? (
-            <UserInfo
-              userId={getUserInfoId}
-              setDisplay={setUserInfoDisplay}
-              setTarget={setTarget}
-              setTargetType={setTargetType}
-              setTargetName={setTargetName}
-            />
-          ) : null}
           {navLinkChoose()}
           <nav>
             <div className="nav-content">{chooseNav()}</div>
@@ -440,6 +432,15 @@ function App() {
             </div>
           </nav>
           <main>{chooseMain()}</main>
+          {userInfoDisplay ? (
+            <UserInfo
+              userId={getUserInfoId}
+              setDisplay={setUserInfoDisplay}
+              setTarget={setTarget}
+              setTargetType={setTargetType}
+              setTargetName={setTargetName}
+            />
+          ) : null}
         </UserContext.Provider>
       </div>
     );
