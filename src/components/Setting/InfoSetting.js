@@ -66,12 +66,10 @@ function InfoSetting(props) {
       userService
         .changePassword(props.user, phone, newPassword)
         .then((res) => {
-          console.log(res.data);
           alert("密码修改成功");
         })
         .catch((err) => {
           console.log(err);
-          console.log(props.user, phone, newPassword);
           alert("密码修改失败");
         });
     }

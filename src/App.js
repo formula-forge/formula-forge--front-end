@@ -30,7 +30,7 @@ function App() {
   const [connectTrigger, setConnectTrigger] = useState(false);
   const [newMessage, setNewMessage] = useState(null);
   const [logged, setLogged] = useState(false);
-  const [logging, setLogging] = useState(false);
+  const [logging, setLogging] = useState(true);
   const [registering, setRegistering] = useState(false);
   const [user, setUser] = useState(null);
   const [myname, setMyname] = useState(null);
@@ -202,7 +202,6 @@ function App() {
     window.location.reload();
   };
   const handleGetSms = async (phone) => {
-    
     try {
       const response = await userService.getSms(phone);
       console.log("http获取验证码成功");
@@ -214,7 +213,7 @@ function App() {
       if (e.response.data.code === 30) alert("服务器错误");
       throw e;
     }
-    
+
     // userService
     //   .getSms(phone)
     //   .then((response) => {
@@ -345,27 +344,21 @@ function App() {
         >
           登录77
         </button>
-        <button
-          onClick={() => {
-            setLogging(true);
-            setRegistering(false);
-            console.log("点击登录");
-          }}
-        >
-          登录
-        </button>
-        <button
-          onClick={() => {
-            setRegistering(true);
-            setLogging(false);
-            console.log("点击注册");
-          }}
-        >
-          注册
-        </button>
-        {logging ? <Log handleLogin={handleLogin} handleGetSms={handleGetSms}/> : null}
+        {logging ? (
+          <Log
+            handleLogin={handleLogin}
+            handleGetSms={handleGetSms}
+            setLogging={setLogging}
+            setRegistering={setRegistering}
+          />
+        ) : null}
         {registering ? (
-          <Register handleRegister={handleRegister} handleGetSms={handleGetSms} />
+          <Register
+            handleRegister={handleRegister}
+            handleGetSms={handleGetSms}
+            setLogging={setLogging}
+            setRegistering={setRegistering}
+          />
         ) : null}
       </div>
     );

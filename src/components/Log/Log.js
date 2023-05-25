@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import "./Log.css";
 import logo from "../../assets/logo.svg";
 
@@ -16,8 +16,7 @@ function Log(props) {
       if (tryAfter > 0) {
         setTryAfter(tryAfter - 1);
       }
-    }
-    , 1000);
+    }, 1000);
     return () => clearInterval(timer);
   });
 
@@ -28,7 +27,7 @@ function Log(props) {
       setTryAfter(60);
     } catch (err) {
       console.log(err);
-      
+
       return;
     }
   };
@@ -64,7 +63,6 @@ function Log(props) {
     </div>
   );
 
-
   const phoneInputButtoned = (
     <div className="field">
       <label>手机号</label>
@@ -73,7 +71,7 @@ function Log(props) {
         id="phone"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        />
+      />
     </div>
   );
 
@@ -98,15 +96,39 @@ function Log(props) {
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-        <button disabled={tryAfter > 0} type="button" className="sms" onClick={handleGetSms}>{(tryAfter > 0)?tryAfter + "s" : "验证码"}</button>
+        <button
+          disabled={tryAfter > 0}
+          type="button"
+          className="sms"
+          onClick={handleGetSms}
+        >
+          {tryAfter > 0 ? tryAfter + "s" : "验证码"}
+        </button>
       </div>
     </div>
   );
-  
+
+  const switchToRegisterButton = (
+    <div className="center">
+      <button
+        onClick={() => {
+          props.setRegistering(true);
+          props.setLogging(false);
+        }}
+        type="button"
+        className="switch"
+      >
+        注册
+      </button>
+    </div>
+  );
+
   const loginButton = (
-      <div className="center">
-        <button type="submit" className="field">登录</button>
-      </div>
+    <div className="center">
+      <button type="submit" className="field">
+        登录
+      </button>
+    </div>
   );
 
   const usernameLogin = (
@@ -114,6 +136,7 @@ function Log(props) {
       {userNameInput}
       {passwordInput}
       {loginButton}
+      {switchToRegisterButton}
     </form>
   );
 
@@ -122,6 +145,7 @@ function Log(props) {
       {phoneInput}
       {passwordInput}
       {loginButton}
+      {switchToRegisterButton}
     </form>
   );
 
@@ -130,14 +154,14 @@ function Log(props) {
       {phoneInputButtoned}
       {codeInput}
       {loginButton}
+      {switchToRegisterButton}
     </form>
   );
-
 
   return (
     <div id="loginParent">
       <div className="login">
-        <img src={logo} className="logo" alt="logo"/>
+        <img src={logo} className="logo" alt="logo" />
         <h2 className="loginTitle">登录</h2>
         <Tabs className="loginTabs">
           <TabList>
@@ -146,15 +170,9 @@ function Log(props) {
             <Tab>验证码登录</Tab>
           </TabList>
 
-          <TabPanel>
-            {usernameLogin}
-          </TabPanel>
-          <TabPanel>
-            {phoneLogin}
-          </TabPanel>
-          <TabPanel>
-            {codeLogin}
-          </TabPanel>
+          <TabPanel>{usernameLogin}</TabPanel>
+          <TabPanel>{phoneLogin}</TabPanel>
+          <TabPanel>{codeLogin}</TabPanel>
         </Tabs>
       </div>
     </div>

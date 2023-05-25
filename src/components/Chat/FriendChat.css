@@ -8,10 +8,11 @@
   margin-top: 2vh;
   margin-bottom: 1.5vh;
   text-align: center;
+  text-decoration: underline;
 }
 .friend-title:hover {
   cursor: pointer;
-  text-decoration: underline;
+  color: blue;
 }
 .message-box {
   height: 86vh;

@@ -29,8 +29,8 @@ class userService {
       protected: isProtected,
     });
   }
-  changePassword(id, phone, newPassword) {
-    return http.put(`/user/${id}/private`, { phone, password: newPassword });
+  changePassword(id, phone, password) {
+    return http.patch(`/user/${id}/private`, { phone, password });
   }
 }
 

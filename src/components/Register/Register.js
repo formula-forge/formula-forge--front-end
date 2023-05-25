@@ -15,8 +15,7 @@ function Log(props) {
       if (tryAfter > 0) {
         setTryAfter(tryAfter - 1);
       }
-    }
-    , 1000);
+    }, 1000);
     return () => clearInterval(timer);
   });
 
@@ -27,7 +26,7 @@ function Log(props) {
       setTryAfter(60);
     } catch (err) {
       console.log(err);
-      
+
       return;
     }
   };
@@ -40,7 +39,7 @@ function Log(props) {
   return (
     <div id="registerParent">
       <div className="register">
-        <img src={logo} className="logo" alt="logo"/>
+        <img src={logo} className="logo" alt="logo" />
         <h2 className="registerTitle">注册</h2>
         <form onSubmit={handleRegister} id="registerForm" className="default-form">
           <div className="field">
@@ -63,11 +62,7 @@ function Log(props) {
                 value={verifycode}
                 onChange={(e) => setVerifycode(e.target.value)}
               />
-              <button
-                className="sms"
-                onClick={handleGetSms}
-                disabled={tryAfter > 0}
-              >
+              <button className="sms" onClick={handleGetSms} disabled={tryAfter > 0}>
                 {tryAfter > 0 ? `${tryAfter}秒` : "验证码"}
               </button>
             </div>
@@ -101,7 +96,19 @@ function Log(props) {
           </div>
           <div className="canter">
             <button type="submit" className="field">
-              注册 
+              注册
+            </button>
+          </div>
+          <div className="center">
+            <button
+              onClick={() => {
+                props.setRegistering(false);
+                props.setLogging(true);
+              }}
+              type="button"
+              className="switch"
+            >
+              登录
             </button>
           </div>
         </form>

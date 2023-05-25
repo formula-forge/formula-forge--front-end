@@ -81,7 +81,10 @@ function UserInfo(props) {
     if (userInfo.type === "stranger") {
       return (
         <div className="user-info-add">
-          <button className="user-info-add-button" onClick={() => setAdding(true)}>
+          <button
+            className="user-info-add-button confirm"
+            onClick={() => setAdding(true)}
+          >
             添加好友
           </button>
         </div>
@@ -107,15 +110,14 @@ function UserInfo(props) {
       return (
         <div>
           <h2>确定删除好友吗？</h2>
-          <button className="user-info-delete-button" onClick={handleDelete}>
-            确定删除
-          </button>
-          <button
-            className="user-info-delete-button"
-            onClick={() => setDeleting(false)}
-          >
-            取消
-          </button>
+          <div className="two-buttons">
+            <button className="confirm" onClick={handleDelete}>
+              确定删除
+            </button>
+            <button className="cancel" onClick={() => setDeleting(false)}>
+              取消
+            </button>
+          </div>
         </div>
       );
     } else if (adding) {
@@ -141,7 +143,6 @@ function UserInfo(props) {
               onChange={(e) => setAddMessage(e.target.value)}
             />
             <button
-              className="user-info-add-button"
               onClick={() => {
                 setAdding(false);
                 addFriend(
