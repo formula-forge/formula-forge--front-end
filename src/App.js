@@ -180,6 +180,7 @@ function App() {
         console.log("http登录失败, 错误信息: " + JSON.stringify(e.response.data));
         if (e.response.data.code === 14) alert("用户名或密码错误");
         if (e.response.data.code === 10) alert("缺少内容");
+        if (e.response.data.code === 20) alert("用户不存在");
         if (e.response.data.status === 429) alert("登录过于频繁, 请稍后再试");
         if (e.response.data.status === 500) alert("服务器错误, 请稍后再试");
       });
@@ -200,19 +201,32 @@ function App() {
     //刷新页面
     window.location.reload();
   };
-  const handleGetSms = (phone) => {
-    userService
-      .getSms(phone)
-      .then((response) => {
-        console.log("http获取验证码成功");
-        alert("验证码已发送");
-      })
-      .catch((e) => {
-        console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
-        if (e.response.data.code === 10) alert("请求过于频繁");
-        if (e.response.data.code === 11) alert("手机号不合法");
-        if (e.response.data.code === 30) alert("服务器错误");
-      });
+  const handleGetSms = async (phone) => {
+    
+    try {
+      const response = await userService.getSms(phone);
+      console.log("http获取验证码成功");
+      alert("验证码已发送");
+    } catch (e) {
+      console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
+      if (e.response.data.code === 10) alert("请求过于频繁");
+      if (e.response.data.code === 11) alert("手机号不合法");
+      if (e.response.data.code === 30) alert("服务器错误");
+      throw e;
+    }
+    
+    // userService
+    //   .getSms(phone)
+    //   .then((response) => {
+    //     console.log("http获取验证码成功");
+    //     alert("验证码已发送");
+    //   })
+    //   .catch((e) => {
+    //     console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
+    //     if (e.response.data.code === 10) alert("请求过于频繁");
+    //     if (e.response.data.code === 11) alert("手机号不合法");
+    //     if (e.response.data.code === 30) alert("服务器错误");
+    //   });
   };
   const handleRegister = (verifycode, phone, username, password) => {
     userService
@@ -349,7 +363,7 @@ function App() {
         >
           注册
         </button>
-        {logging ? <Log handleLogin={handleLogin} /> : null}
+        {logging ? <Log handleLogin={handleLogin} handleGetSms={handleGetSms}/> : null}
         {registering ? (
           <Register handleRegister={handleRegister} handleGetSms={handleGetSms} />
         ) : null}

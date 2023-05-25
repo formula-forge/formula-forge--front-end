@@ -19,13 +19,14 @@ class userService {
     return http.get("/user");
   }
   changeInfo(name, detail, phone, avatar, motto, isProtected) {
+    console.log(isProtected);
     return http.patch("/user", {
       name,
       detail,
       phone,
       avatar,
       motto,
-      isProtected,
+      protected: isProtected,
     });
   }
   changePassword(id, phone, newPassword) {

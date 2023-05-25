@@ -44,6 +44,7 @@ function UserInfo(props) {
     return <div>{detail}</div>;
   }
   function addFriend(receiver, message, classification, nickname) {
+    console.log(userInfo);
     try {
       if (userInfo.type === "stranger") {
         if (userInfo.protected) {
@@ -121,25 +122,24 @@ function UserInfo(props) {
       return (
         <div>
           <h2>添加好友</h2>
-          <form>
+          <form className="default-form" id="userAdd">
+            <input
+              type="text"
+              className="user-info-add-textarea"
+              placeholder="分组"
+              onChange={(e) => setAddClassification(e.target.value)}
+            />
+            <input
+              type="text"
+              className="user-info-add-textarea"
+              placeholder="备注"
+              onChange={(e) => setAddNickname(e.target.value)}
+            />
             <textarea
               className="user-info-add-textarea"
               placeholder="验证信息"
               onChange={(e) => setAddMessage(e.target.value)}
             />
-            <br />
-            <textarea
-              className="user-info-add-textarea"
-              placeholder="分组"
-              onChange={(e) => setAddClassification(e.target.value)}
-            />
-            <br />
-            <textarea
-              className="user-info-add-textarea"
-              placeholder="备注"
-              onChange={(e) => setAddNickname(e.target.value)}
-            />
-            <br />
             <button
               className="user-info-add-button"
               onClick={() => {

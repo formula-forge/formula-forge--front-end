@@ -22,7 +22,7 @@ function InfoSetting(props) {
         setPhone(res.data.data.phone);
         setAvatar(res.data.data.avatar);
         setMotto(res.data.data.motto);
-        setIsProtected(res.data.data.isProtected);
+        setIsProtected(res.data.data.protected);
         setLoading(false);
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ function InfoSetting(props) {
     setMotto(e.target.value);
   };
   const handleIsProtectedChange = (e) => {
-    setIsProtected(e.target.value);
+    setIsProtected(Boolean(e.target.value));
   };
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
