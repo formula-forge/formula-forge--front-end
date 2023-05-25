@@ -19,6 +19,7 @@ import InfoSetting from "./components/Setting/InfoSetting";
 import GroupSetting from "./components/groupConfig/GroupSetting";
 import GroupMember from "./components/groupConfig/GroupMember";
 import GroupCreate from "./components/groupConfig/GroupCreate";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 import "./components/default.css";
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
   const [newMessage, setNewMessage] = useState(null);
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(true);
+  const [resetting, setResetting] = useState(false);
+  const [resettingPhone, setResettingPhone] = useState("");
   const [registering, setRegistering] = useState(false);
   const [user, setUser] = useState(null);
   const [myname, setMyname] = useState(null);
@@ -213,19 +216,6 @@ function App() {
       if (e.response.data.code === 30) alert("服务器错误");
       throw e;
     }
-
-    // userService
-    //   .getSms(phone)
-    //   .then((response) => {
-    //     console.log("http获取验证码成功");
-    //     alert("验证码已发送");
-    //   })
-    //   .catch((e) => {
-    //     console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
-    //     if (e.response.data.code === 10) alert("请求过于频繁");
-    //     if (e.response.data.code === 11) alert("手机号不合法");
-    //     if (e.response.data.code === 30) alert("服务器错误");
-    //   });
   };
   const handleRegister = (verifycode, phone, username, password) => {
     userService
@@ -243,6 +233,32 @@ function App() {
         if (e.response.data.code === 13) alert("用户已存在");
         if (e.response.data.code === 30) alert("服务器错误");
       });
+  };
+  const handleResetPassword = (verifycode, phone, password, verifyPassword) => {
+    if (password !== verifyPassword) {
+      alert("两次密码输入不一致");
+      return;
+    }
+    userService
+      .changePassword(Number(verifycode), phone, password)
+      .then((response) => {
+        console.log("http修改密码成功");
+        setResetting(false);
+        alert("修改密码成功, 请重新登录");
+        setLogging(true);
+        handleLogout();
+      })
+      .catch((e) => {
+        console.log("http修改密码失败, 错误信息: " + JSON.stringify(e));
+        alert(e.response.data.message);
+      });
+  };
+  const handleJumptoReset = (phone) => {
+    setLogging(false);
+    logService.logout();
+    setResetting(true);
+    setLogged(false);
+    setResettingPhone(phone);
   };
   function chooseNav() {
     if (navLink === "friend") {
@@ -311,7 +327,7 @@ function App() {
       );
     } else if (targetType === "add") return <Add user={user} addInfo={target} />;
     else if (targetType === "info-setting")
-      return <InfoSetting user={user} myname={myname} />;
+      return <InfoSetting user={user} myname={myname} handleJumptoReset={handleJumptoReset} />;
     else if (targetType === "group-setting") {
       return <GroupSetting groupId={target} setTargetType={setTargetType} />;
     } else if (targetType === "group-member") {
@@ -350,6 +366,7 @@ function App() {
             handleGetSms={handleGetSms}
             setLogging={setLogging}
             setRegistering={setRegistering}
+            setResetting={setResetting}
           />
         ) : null}
         {registering ? (
@@ -358,6 +375,16 @@ function App() {
             handleGetSms={handleGetSms}
             setLogging={setLogging}
             setRegistering={setRegistering}
+          />
+        ) : null}
+        {resetting ? (
+          <ResetPassword
+            handleResetPassword={handleResetPassword}
+            handleGetSms={handleGetSms}
+            setLogging={setLogging}
+            setResetting={setResetting}
+            handleLogout={handleLogout}
+            phone={resettingPhone}
           />
         ) : null}
       </div>

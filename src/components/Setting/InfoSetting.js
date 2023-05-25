@@ -11,7 +11,9 @@ function InfoSetting(props) {
   const [motto, setMotto] = useState("");
   const [isProtected, setIsProtected] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [newPassword, setNewPassword] = useState("");
+  
+  const [modified, setModified] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     userService
@@ -31,27 +33,36 @@ function InfoSetting(props) {
   }, []);
   const handleNameChange = (e) => {
     setName(e.target.value);
+    setModified(true);
   };
   const handleDetailChange = (e) => {
     setDetail(e.target.value);
+    setModified(true);
   };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
+    setModified(true);
   };
   const handleAvatarChange = (e) => {
     setAvatar(e.detail);
+    setModified(true);
   };
   const handleMottoChange = (e) => {
     setMotto(e.target.value);
+    setModified(true);
   };
   const handleIsProtectedChange = (e) => {
     setIsProtected(Boolean(e.target.value));
+    setModified(true);
   };
-  const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value);
+  const handleResetPassword = (e) => {
+    if((!modified) || window.confirm("放弃未保存的修改？")) {
+      props.handleJumptoReset(phone);
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setModified(false);
     userService
       .changeInfo(name, detail, phone, avatar, motto, isProtected)
       .then((res) => {
@@ -62,17 +73,6 @@ function InfoSetting(props) {
         console.log(err);
         alert("信息修改失败");
       });
-    if (newPassword !== "") {
-      userService
-        .changePassword(props.user, phone, newPassword)
-        .then((res) => {
-          alert("密码修改成功");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("密码修改失败");
-        });
-    }
   };
   return (
     <div className="info-setting">
@@ -95,14 +95,11 @@ function InfoSetting(props) {
             <option value={true}>需要验证</option>
             <option value={false}>不需要验证</option>
           </select>
-          <label htmlFor="newPassword">新密码</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={handleNewPasswordChange}
-          />
+          <button type="button" className="resetPassword" onClick={handleResetPassword}>
+            重置密码
+          </button>
           <br />
-          <button type="submit">提交</button>
+          <button type="submit" disabled={!modified}>提交</button>
         </form>
       )}
     </div>

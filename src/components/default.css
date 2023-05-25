@@ -87,6 +87,13 @@ h2 {
   color: #332bbc;
 }
 
+.default-form button:disabled {
+  background-color: #ccc;
+  color: #666;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
 .default-form {
   display: flex;
   flex-direction: column;
