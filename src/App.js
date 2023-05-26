@@ -45,11 +45,13 @@ function App() {
   useEffect(() => {
     if (!logged) return;
     // 创建 WebSocket 连接
-    const newSocket = new WebSocket("ws://home.xn--qby.cf:8080/api");
+    const newSocket = new WebSocket("wss://home.xn--qby.cf/api/connect");
     setSocket(newSocket);
 
     newSocket.onopen = () => {
       // 连接成功后发送消息
+      console.log(cookie.load("token"));
+
       const message = {
         code: 0,
         token: cookie.load("token"),
@@ -191,7 +193,8 @@ function App() {
   const handleLogout = () => {
     cookie.remove("token");
     setLogged(false);
-    socket.close();
+    if(socket && socket.readyState === WebSocket.OPEN)
+      socket.close();
     console.log("http尝试登出");
     logService
       .logout()
