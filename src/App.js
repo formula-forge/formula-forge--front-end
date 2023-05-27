@@ -193,8 +193,7 @@ function App() {
   const handleLogout = () => {
     cookie.remove("token");
     setLogged(false);
-    if(socket && socket.readyState === WebSocket.OPEN)
-      socket.close();
+    if (socket && socket.readyState === WebSocket.OPEN) socket.close();
     console.log("http尝试登出");
     logService
       .logout()
@@ -209,7 +208,7 @@ function App() {
   };
   const handleGetSms = async (phone) => {
     try {
-      const response = await userService.getSms(phone);
+      userService.getSms(phone);
       console.log("http获取验证码成功");
       alert("验证码已发送");
     } catch (e) {
@@ -330,7 +329,13 @@ function App() {
       );
     } else if (targetType === "add") return <Add user={user} addInfo={target} />;
     else if (targetType === "info-setting")
-      return <InfoSetting user={user} myname={myname} handleJumptoReset={handleJumptoReset} />;
+      return (
+        <InfoSetting
+          user={user}
+          myname={myname}
+          handleJumptoReset={handleJumptoReset}
+        />
+      );
     else if (targetType === "group-setting") {
       return <GroupSetting groupId={target} setTargetType={setTargetType} />;
     } else if (targetType === "group-member") {

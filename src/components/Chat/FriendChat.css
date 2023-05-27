@@ -52,13 +52,13 @@
   width: calc(100% - 80px);
   flex-direction: column;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 .one-message .my-saying .name-and-saying-box {
   width: calc(100% - 80px);
   flex-direction: column;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 .one-message .saying {
   margin: 8px 10px;
