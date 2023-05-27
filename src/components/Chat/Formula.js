@@ -11,6 +11,7 @@ function Formula(props) {
   const [addingFormulaClass, setAddingFormulaClass] = useState(false);
   const [deleteTrigger, setDeleteTrigger] = useState(false);
   const [deletingFormulaClass, setDeletingFormulaClass] = useState(false);
+  const [deletingFormula, setDeletingFormula] = useState(false);
   useEffect(() => {
     setLoading(true);
     formulaService
@@ -81,39 +82,64 @@ function Formula(props) {
         console.log(e);
       });
   };
+  const handleDeleteFormula = (event, deletedFormula) => {
+    event.stopPropagation();
+    const newAllFormula = formula[formulaClass].filter(
+      (oneFormula) => oneFormula !== deletedFormula
+    );
+    const newFormulaObj = { ...formula, [formulaClass]: newAllFormula };
+    formulaService
+      .putAll(newFormulaObj)
+      .then((response) => {
+        console.log(response);
+        setFormula(newFormulaObj);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const addFormula = () => {
     return (
-      <div className="add-formula-container">
-        <form className="add-formula-form" onSubmit={handleSubmitFormula}>
+      <div className="add-container">
+        <form
+          className="add-formula-form default-form"
+          onSubmit={handleSubmitFormula}
+        >
           <input placeholder="名称" id="add-formula-name" />
+          <input placeholder="公式" id="add-formula-formula" />
+          <button type="submit" className="confirm">
+            添加
+          </button>
           <button
             onClick={() => {
               setAddingFormula(false);
             }}
+            className="cancel"
             type="button"
           >
-            x
+            取消
           </button>
-          <input placeholder="公式" id="add-formula-formula" />
-          <button type="submit">添加</button>
         </form>
       </div>
     );
   };
   const addClass = () => {
     return (
-      <div className="add-class-container">
-        <form className="add-class-form" onSubmit={handleSubmitClass}>
+      <div className="add-container">
+        <form className="add-formula-form default-form" onSubmit={handleSubmitClass}>
           <input placeholder="名称" id="add-class-name" />
-          <button type="submit">添加</button>
+          <button type="submit" className="confirm">
+            添加
+          </button>
           <button
             onClick={() => {
               setAddingFormulaClass(false);
             }}
+            className="cancel"
             type="button"
           >
-            x
+            取消
           </button>
         </form>
       </div>
@@ -121,6 +147,7 @@ function Formula(props) {
   };
   const allFormula = (formula[formulaClass] ? formula[formulaClass] : []).map(
     (formula) => {
+      if (!formula) return null;
       return (
         <div
           className="formula-item"
@@ -132,6 +159,17 @@ function Formula(props) {
         >
           <p>{formula.name}</p>
           <p>{formula.face}</p>
+          {deletingFormula && (
+            <button
+              className="delete-formula"
+              type="button"
+              onClick={(event) => {
+                handleDeleteFormula(event, formula);
+              }}
+            >
+              x
+            </button>
+          )}
         </div>
       );
     }
@@ -139,7 +177,7 @@ function Formula(props) {
   const allClass = Object.keys(formula).map((oneFormulaClass) => {
     return (
       <div
-        key={oneFormulaClass}
+        key={nanoid()}
         className={
           oneFormulaClass === formulaClass
             ? "choosing-formula-class formula-class"
@@ -149,6 +187,7 @@ function Formula(props) {
         <button
           onClick={() => {
             setFormulaClass(oneFormulaClass);
+            setDeletingFormula(false);
           }}
           type="button"
         >
@@ -159,19 +198,24 @@ function Formula(props) {
   });
   const deleteFormulaClassConfirm = () => {
     return (
-      <div>
-        <p>确认删除该分组？</p>
-        <button onClick={handleDeleteClass} type="button">
-          确认
-        </button>
-        <button
-          onClick={() => {
-            setDeletingFormulaClass(false);
-          }}
-          type="button"
-        >
-          取消
-        </button>
+      <div className="delete-class-container">
+        <div className="default-container">
+          <h1>确认删除该分组?</h1>
+          <div className="two-buttons">
+            <button onClick={handleDeleteClass} type="button" className="confirm">
+              删除
+            </button>
+            <button
+              onClick={() => {
+                setDeletingFormulaClass(false);
+              }}
+              className="cancel"
+              type="button"
+            >
+              取消
+            </button>
+          </div>
+        </div>
       </div>
     );
   };
@@ -185,22 +229,33 @@ function Formula(props) {
           <>
             {allFormula}
             <div className="formula-item">
-              <div
+              <button
                 onClick={() => {
                   setAddingFormula(true);
                 }}
+                className="formula-add-button"
+                type="button"
               >
                 添加公式
-              </div>
+              </button>
               <br />
+              <button
+                onClick={() => setDeletingFormula((p) => !p)}
+                className="formula-delete-button"
+                type="button"
+              >
+                {deletingFormula ? "取消" : "删除公式"}
+              </button>
               <br />
-              <div
+              <button
                 onClick={() => {
                   setDeletingFormulaClass(true);
                 }}
+                className="formula-delete-button"
+                type="button"
               >
                 删除该分组
-              </div>
+              </button>
             </div>
           </>
         ) : (
@@ -218,7 +273,7 @@ function Formula(props) {
                 }}
                 type="button"
               >
-                (+)
+                +
               </button>
             </div>
           </>
