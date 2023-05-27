@@ -1,12 +1,14 @@
 .formula-container {
   display: flex;
   position: absolute;
-  bottom: 10%;
+  bottom: 45px;
   right: 0;
   border: 1px solid #ccc;
   flex-direction: column;
   background-color: white;
+  align-items: flex-start;
 }
+
 .formula-class-container {
   display: flex;
   flex-direction: row;
@@ -15,7 +17,20 @@
   overflow-x: scroll;
   white-space: nowrap;
   background-color: #e7e7e7;
+  align-items: center;
 }
+
+.formula-class-container {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  overflow: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  background-color: #e7e7e7;
+  align-items: center;
+}
+
 .formula-item-container {
   display: flex;
   flex-wrap: wrap;
@@ -23,56 +38,145 @@
   margin-bottom: 4px;
 }
 .formula-item {
-  width: 100px;
-  height: 100px;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: 90px;
+  padding: 5px;
   overflow: auto;
   margin: 0;
   background-color: white;
-  box-sizing: border-box; /* ±ß¿ò¼ÆËãÔÚÄÚ²¿ */
+  box-sizing: border-box; /* ï¿½ß¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ */
   border: 1px solid #ccc;
+  justify-content: space-between;
 }
+
+.formula-item:hover {
+  color: #444;
+}
+
 .formula-item p {
-  word-wrap: break-word; /* ÔÊÐíµ¥´Ê»»ÐÐ */
-  word-break: break-all; /* ´ò¶Ï³¬³¤µ¥´Ê */
+  word-wrap: break-word; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ */
+  word-break: break-all; /* ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
   margin: 4px;
+  color: #444;
 }
-.add-formula-container {
-  position: fixed; /* Ê¹ÓÃ¹Ì¶¨¶¨Î»£¬Ê¹ÔªËØÏà¶ÔÓÚÊÓ¿Ú¶¨Î» */
-  top: 50%; /* ¾àÀëÊÓ¿Ú¶¥²¿µÄ¾àÀë */
-  left: 50%; /* ¾àÀëÊÓ¿Ú×ó²àµÄ¾àÀë */
-  transform: translate(-50%, -50%); /* ½«ÔªËØ×ÔÉíµÄÖÐÐÄµã¶¨Î»ÔÚÊÓ¿ÚµÄÖÐÐÄ */
-  width: 300px; /* Ðü¸¡´°µÄ¿í¶È */
-  height: 200px; /* Ðü¸¡´°µÄ¸ß¶È */
-  background-color: #f1f1f1; /* Ðü¸¡´°µÄ±³¾°ÑÕÉ« */
-  border: 1px solid #ccc; /* Ðü¸¡´°µÄ±ß¿òÑùÊ½ */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ðü¸¡´°µÄÒõÓ°Ð§¹û */
-  z-index: 9999; /* È·±£Ðü¸¡´°ÔÚÆäËûÔªËØÖ®ÉÏ */
+.add-formula-container , .add-class-container {
+  position: fixed; /* Ê¹ï¿½Ã¹Ì¶ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ê¹Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Ú¶ï¿½Î» */
+  top: 50%; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Ú¶ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
+  left: 50%; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
+  transform: translate(-50%, -50%); /* ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµã¶¨Î»ï¿½ï¿½ï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ */
+  width: fit-content; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ */
+  height: fit-content; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ß¶ï¿½ */
+  padding: 10px;
+  background-color: #f1f1f1; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É« */
+  border: 1px solid #ccc; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß¿ï¿½ï¿½ï¿½Ê½ */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°Ð§ï¿½ï¿½ */
+  z-index: 9999; /* È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½Ö®ï¿½ï¿½ */
 }
-.add-class-container {
-  position: fixed; /* Ê¹ÓÃ¹Ì¶¨¶¨Î»£¬Ê¹ÔªËØÏà¶ÔÓÚÊÓ¿Ú¶¨Î» */
-  top: 50%; /* ¾àÀëÊÓ¿Ú¶¥²¿µÄ¾àÀë */
-  left: 50%; /* ¾àÀëÊÓ¿Ú×ó²àµÄ¾àÀë */
-  transform: translate(-50%, -50%); /* ½«ÔªËØ×ÔÉíµÄÖÐÐÄµã¶¨Î»ÔÚÊÓ¿ÚµÄÖÐÐÄ */
-  width: 300px; /* Ðü¸¡´°µÄ¿í¶È */
-  height: 200px; /* Ðü¸¡´°µÄ¸ß¶È */
-  background-color: #f1f1f1; /* Ðü¸¡´°µÄ±³¾°ÑÕÉ« */
-  border: 1px solid #ccc; /* Ðü¸¡´°µÄ±ß¿òÑùÊ½ */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ðü¸¡´°µÄÒõÓ°Ð§¹û */
-  z-index: 9999; /* È·±£Ðü¸¡´°ÔÚÆäËûÔªËØÖ®ÉÏ */
+
+.preview-formula-container {
+  position: fixed; /* Ê¹ï¿½Ã¹Ì¶ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ê¹Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Ú¶ï¿½Î» */
+  top: 50%; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Ú¶ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
+  left: 50%; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
+  transform: translate(-50%, -50%); /* ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµã¶¨Î»ï¿½ï¿½ï¿½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ */
+  width: fit-content; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ */
+  height: fit-content; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ß¶ï¿½ */
+  padding: 10px;
+  background-color: #f1f1f1; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É« */
+  border: 1px solid #ccc; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß¿ï¿½ï¿½ï¿½Ê½ */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°Ð§ï¿½ï¿½ */
+  z-index: 20000; /* È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½Ö®ï¿½ï¿½ */
 }
+
+.add-formula-form, .add-class-form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-formula-form input,.add-formula-form textarea, .add-formula-form button{
+  margin-bottom: 10px;
+}
+
+.add-class-form input, .add-class-form button {
+  margin-bottom: 10px;
+}
+
+#add-formula-cancel, #add-class-cancel, #preview-cancel {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  color: #F44336;
+  background-color: transparent;
+  border: none;
+}
+
+#add-formula-cancel:hover, #add-class-cancel:hover, #preview-cancel:hover {
+  color: #B71C1C;
+}
+
+.formula-face {
+  font-size: 20px;
+}
+
+.formula-class {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  overflow: hidden;
+  overflow-x: scroll;
+  align-items: center;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-right: 1px solid #bcbcbc;
+  padding-left: 1px solid #bcbcbc;
+}
+
 .formula-class button {
   border: 0;
-  height: 28px;
-  background-color: #e7e7e7;
+  background-color: transparent;
   color: #000;
-  padding: 4px;
+  font-size: 15px;
+  height: 30px;
+  padding-right: 0;
 }
+
 .formula-class button:hover {
-  background-color: #ccc;
+  color: #444;
 }
-.choosing-formula-class button {
-  background-color: #ffffff;
+
+.delete-formula-class span {
+  border: 0;
+  height: 24px;
+  color: #F44336;
 }
-.choosing-formula-class button:hover {
-  background-color: #ffffff;
+
+.choosing-formula-class {
+  background-color: #fefefe;
+}
+
+.formula-class-icon-button {
+  padding-left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.formula-add-button {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+}
+
+.formula-add-button:hover span {
+  color: #444;
+}
+
+.formula-add-button span {
+  font-size: 40px;
+  color: #000;
 }

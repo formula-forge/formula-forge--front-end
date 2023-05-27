@@ -21,6 +21,7 @@ import GroupMember from "./components/groupConfig/GroupMember";
 import GroupCreate from "./components/groupConfig/GroupCreate";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import "./components/default.css";
+import 'material-icons/iconfont/material-icons.css';
 
 function App() {
   const [navLink, setnavLink] = useState("chat");
