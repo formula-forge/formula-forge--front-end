@@ -225,6 +225,7 @@ function App() {
       .then((response) => {
         console.log("http注册成功, 用户ID: " + response.data.userId);
         setRegistering(false);
+        setLogging(true);
         alert("注册成功, 请登录");
       })
       .catch((e) => {

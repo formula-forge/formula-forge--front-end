@@ -37,7 +37,7 @@ function Formula(props) {
     const newName = document.getElementById("add-formula-name").value;
     const newContent = document.getElementById("add-formula-formula").value;
     if (!formula) return;
-    const newFormula = { name: newName, formula: newContent, face: newContent };
+    const newFormula = { name: newName, formula: newContent, face: String(newContent).replaceAll("{}","{\\square}") };
     const newAllFormula = formula[formulaClass].concat(newFormula);
     const newFormulaObj = { ...formula, [formulaClass]: newAllFormula };
     formulaService
@@ -158,7 +158,15 @@ function Formula(props) {
           type="button"
         >
           <p>{formula.name}</p>
-          <p>{formula.face}</p>
+          {
+            (formula.format=="svg") ? 
+            (
+              <div className="formula-content" dangerouslySetInnerHTML={{ __html: formula.face }}></div>
+            ):
+            (
+              <p className="formula-content">{formula.face}</p>
+            )
+          }
           {deletingFormula && (
             <button
               className="delete-formula"
