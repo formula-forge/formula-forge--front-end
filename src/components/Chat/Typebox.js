@@ -78,6 +78,7 @@ const Typebox = (props) => {
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           ref={textareaRef}
+          onClick={() => setFormulaOpen(false)}
         />
         <div className="chat-typebox-button-container">
           <button
