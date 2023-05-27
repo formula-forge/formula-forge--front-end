@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
+import "./ResetPassword.css";
 import "../loglike.css";
 
-function Log(props) {
+function ResetPassword(props) {
   const [verifycode, setVerifycode] = useState("");
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(props.phone);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [tryAfter, setTryAfter] = useState(0);
@@ -33,14 +33,14 @@ function Log(props) {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    props.handleRegister(verifycode, phone, username, password);
+    props.handleResetPassword(verifycode, phone, password, confirmPassword);
   };
 
   return (
     <div className="parent">
       <div className="panel">
         <img src={logo} className="logo" alt="logo" />
-        <h2 className="registerTitle">注册</h2>
+        <h2 className="registerTitle loginTitle">重置密码</h2>
         <form onSubmit={handleRegister} id="registerForm" className="default-form">
           <div className="field">
             <label>手机号</label>
@@ -68,15 +68,6 @@ function Log(props) {
             </div>
           </div>
           <div className="field">
-            <label>昵称</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="field">
             <label>密码</label>
             <input
               type="password"
@@ -96,19 +87,16 @@ function Log(props) {
           </div>
           <div className="canter">
             <button type="submit" className="field">
-              注册
+              重置密码
             </button>
           </div>
           <div className="center">
             <button
-              onClick={() => {
-                props.setRegistering(false);
-                props.setLogging(true);
-              }}
+              onClick={props.handleLogout}
               type="button"
               className="switch"
             >
-              登录
+              返回
             </button>
           </div>
         </form>
@@ -117,4 +105,4 @@ function Log(props) {
   );
 }
 
-export default Log;
+export default ResetPassword;

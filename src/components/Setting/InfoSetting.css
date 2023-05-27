@@ -4,3 +4,14 @@
 .info-setting h1 {
   text-align: center;
 }
+.info-setting .resetPassword {
+  margin-top: 15px;
+  background-color: rgb(255, 102, 0);
+  border-color: rgb(255, 72, 0);
+}
+
+.info-setting button.resetPassword:hover {
+  background-color: #fff;
+  border-color: rgb(255, 102, 0);
+  color: rgb(255, 72, 0);
+}

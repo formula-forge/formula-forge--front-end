@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./Log.css";
+import "../loglike.css"
 import logo from "../../assets/logo.svg";
 
 function Log(props) {
@@ -123,6 +124,13 @@ function Log(props) {
     </div>
   );
 
+  const forgotPassword = (
+    <div className="right">
+      <a href="#" 
+        onClick={() => { props.setResetting(true); props.setLogging(false); }}>忘记密码</a>
+    </div>
+  )
+
   const loginButton = (
     <div className="center">
       <button type="submit" className="field">
@@ -135,6 +143,7 @@ function Log(props) {
     <form onSubmit={handleLogin} className="default-form">
       {userNameInput}
       {passwordInput}
+      {forgotPassword}
       {loginButton}
       {switchToRegisterButton}
     </form>
@@ -144,6 +153,7 @@ function Log(props) {
     <form onSubmit={handleLogin} className="default-form">
       {phoneInput}
       {passwordInput}
+      {forgotPassword}
       {loginButton}
       {switchToRegisterButton}
     </form>
@@ -159,8 +169,8 @@ function Log(props) {
   );
 
   return (
-    <div id="loginParent">
-      <div className="login">
+    <div className="parent">
+      <div className="panel">
         <img src={logo} className="logo" alt="logo" />
         <h2 className="loginTitle">登录</h2>
         <Tabs className="loginTabs">

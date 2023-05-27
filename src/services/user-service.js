@@ -29,8 +29,8 @@ class userService {
       protected: isProtected,
     });
   }
-  changePassword(id, phone, password) {
-    return http.patch(`/user/${id}/private`, { phone, password });
+  changePassword(verifyCode, phone, password) {
+    return http.patch(`/user/password`, { verifyCode, phone, password });
   }
 }
 
