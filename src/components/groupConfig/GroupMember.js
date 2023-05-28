@@ -43,14 +43,16 @@ function GroupMember(props) {
         console.log(err);
       });
   };
-  const members = allMembers.map((member) => (
-    <div key={nanoid()} className="member">
+  const members = allMembers.map((member, index) => (
+    <div key={nanoid()} className={`member${index != 0 ? " not-first" : ""}`}>
       <UserAvatar userId={member.userId} avatar={member.avatar} type="list-avatar" />
       <span>{member.name}</span>
-      {isOwner && member.userId !== props.user && (
+      {isOwner && member.userId !== props.user ? (
         <button className="delete" onClick={() => handleDeleteMember(member.userId)}>
           删除
         </button>
+      ) : (
+        <button className="not-delete">群主</button>
       )}
     </div>
   ));
@@ -83,7 +85,10 @@ function GroupMember(props) {
         res.data.entries.forEach((friend) => {
           if (!allMembers.some((member) => member.userId === friend.userId)) {
             list.push(
-              <div key={nanoid()} className="member">
+              <div
+                key={nanoid()}
+                className={"member" + (list.some(() => 1) ? " not-first" : "")}
+              >
                 <UserAvatar
                   userId={friend.userId}
                   avatar={friend.avatar}
