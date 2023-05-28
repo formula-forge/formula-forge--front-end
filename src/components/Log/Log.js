@@ -35,7 +35,7 @@ function Log(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    props.handleLogin(username, phone, password);
+    props.handleLogin(username, phone, password, Number(code));
   };
 
   const userNameInput = (

@@ -29,6 +29,7 @@ div.field {
   flex-direction: column;
   margin-bottom: 5px;
   padding-bottom: 10px;
+  justify-content: center;
 }
 
 button.field {
@@ -68,9 +69,9 @@ input {
 }
 
 button.sms {
-  width: fit-content;
   margin-left: 10px;
   width: 100px;
+  padding: 0;
 }
 
 div#panel {
@@ -85,7 +86,8 @@ div#panel {
 div.row {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .loginTabs {

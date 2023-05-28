@@ -1,11 +1,12 @@
 import http from "./http-common";
 
 class LogService {
-  login(username, phone, password) {
+  login(username, phone, password, code) {
     const message = {};
     if (username) message.username = username;
     if (phone) message.phone = phone;
-    message.password = password;
+    if (password) message.password = password;
+    if (code) message.code = code;
     return http.post("/token", message);
   }
   logout() {

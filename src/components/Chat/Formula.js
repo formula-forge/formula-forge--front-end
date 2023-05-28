@@ -159,7 +159,7 @@ function Formula(props) {
         >
           <p>{formula.name}</p>
           {
-            (formula.format=="svg") ? 
+            (formula.format==="svg") ? 
             (
               <div className="formula-content" dangerouslySetInnerHTML={{ __html: formula.face }}></div>
             ):

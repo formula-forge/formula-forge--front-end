@@ -22,6 +22,8 @@ import GroupCreate from "./components/groupConfig/GroupCreate";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import "./components/default.css";
 
+const DEBUG = false;
+
 function App() {
   const [navLink, setnavLink] = useState("chat");
   const [target, setTarget] = useState("");
@@ -168,9 +170,9 @@ function App() {
       return false;
     }
   }
-  const handleLogin = (username, phone, password) => {
+  const handleLogin = (username, phone, password, code) => {
     logService
-      .login(username, phone, password)
+      .login(username, phone, password, code)
       .then((response) => {
         cookie.save("token", response.data.token);
         cookie.save("userId", response.data.userId);
@@ -210,7 +212,7 @@ function App() {
     try {
       userService.getSms(phone);
       console.log("http获取验证码成功");
-      alert("验证码已发送");
+      alert("验证码已发送-由于备案仍在审核, 请使用测试验证码: 260817");
     } catch (e) {
       console.log("http获取验证码失败, 错误信息: " + JSON.stringify(e.response));
       if (e.response.data.code === 10) alert("请求过于频繁");
@@ -355,20 +357,20 @@ function App() {
   const notLoggedPage = () => {
     return (
       <div>
-        <button
+        {DEBUG && <button
           onClick={() => {
             handleLogin("testA", null, "P@ssW0rd");
           }}
         >
           登录65
-        </button>
-        <button
+        </button>}
+        {DEBUG && <button
           onClick={() => {
             handleLogin("testB", null, "P@ssW0rd");
           }}
         >
           登录77
-        </button>
+        </button>}
         {logging ? (
           <Log
             handleLogin={handleLogin}
