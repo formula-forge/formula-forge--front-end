@@ -64,6 +64,8 @@ function GroupMember(props) {
         .then((res) => {
           console.log(res);
           setListRefreshTrigger(!listRefreshTrigger);
+          setSelectedMembers([]);
+          setAddMember(false);
         })
         .catch((err) => {
           console.log(err);
@@ -72,9 +74,9 @@ function GroupMember(props) {
   };
   const handleSelectMember = (userId) => {
     if (selectedMembers.includes(userId)) {
-      setSelectedMembers(selectedMembers.filter((id) => id !== userId));
+      setSelectedMembers((p) => p.filter((id) => id !== userId));
     } else {
-      setSelectedMembers([...selectedMembers, userId]);
+      setSelectedMembers((p) => [...p, userId]);
     }
   };
   const addMemberRenew = () => {
