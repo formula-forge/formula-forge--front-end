@@ -29,9 +29,15 @@
 }
 
 #userAdd button {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 87%;
+
+}
+
+#userAdd{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-info-add .user-info-add-button {
