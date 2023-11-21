@@ -54,7 +54,11 @@ on your computer.\
 If you want to know what the project looks like, this is our video (sorry that it is in
 Chinese):
 
-<iframe width="560" src="e:\桌面\web\FormulaForge\formula-forge\formula.mp4" ></iframe>
+
+
+https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad316d-7d00-496e-adc4-2c42c7f08e99
+
+
 
 ### Project Structure
 
