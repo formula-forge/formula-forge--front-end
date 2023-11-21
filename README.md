@@ -5,24 +5,24 @@ front-end of the application.
 
 ### Functions
 
-- [x] Register & Login
-- [x] Chat
-  - [x] Send text and latex formula
-  - [x] Chat history
-  - [x] Recnet chat list
-  - [x] Chat with friends & groups
-- [x] Friend
-  - [x] Add friend
-  - [x] Delete friend
-  - [x] Friend list
-- [x] Group
-  - [x] Create group
-  - [x] Delete group
-  - [x] Group list
-  - [x] Manage members
-- [x] Formula
-  - [x] Write `$` or `$$` to wrap latex formula
-  - [x] Edit your own stored formula just like emoji
+- [ ] Register & Login
+- [ ] Chat
+  - [ ] Send text and latex formula
+  - [ ] Chat history
+  - [ ] Recnet chat list
+  - [ ] Chat with friends & groups
+- [ ] Friend
+  - [ ] Add friend
+  - [ ] Delete friend
+  - [ ] Friend list
+- [ ] Group
+  - [ ] Create group
+  - [ ] Delete group
+  - [ ] Group list
+  - [ ] Manage members
+- [ ] Formula
+  - [ ] Write `$` or `$$` to wrap latex formula
+  - [ ] Edit your own stored formula just like emoji
 
 ### Tech Stack
 
@@ -54,11 +54,7 @@ on your computer.\
 If you want to know what the project looks like, this is our video (sorry that it is in
 Chinese):
 
-
-
 https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad316d-7d00-496e-adc4-2c42c7f08e99
-
-
 
 ### Project Structure
 
