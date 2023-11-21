@@ -1,28 +1,28 @@
 ## Application Introduction
 
-This is an online chat application which supports latex formula. This project is the
+This is an online chat application which supports latex formula. The project is the
 front-end of the application.
 
 ### Functions
 
-- [ ] Register & Login
-- [ ] Chat
-  - [ ] Send text and latex formula
-  - [ ] Chat history
-  - [ ] Recnet chat list
-  - [ ] Chat with friends & groups
-- [ ] Friend
-  - [ ] Add friend
-  - [ ] Delete friend
-  - [ ] Friend list
-- [ ] Group
-  - [ ] Create group
-  - [ ] Delete group
-  - [ ] Group list
-  - [ ] Manage members
-- [ ] Formula
-  - [ ] Write `$` or `$$` to wrap latex formula
-  - [ ] Edit your own stored formula just like emoji
+- :white_check_mark: Register & Login
+- :white_check_mark: Chat
+  - :white_check_mark: Send text and latex formula
+  - :white_check_mark: Chat history
+  - :white_check_mark: Recnet chat list
+  - :white_check_mark: Chat with friends & groups
+- :white_check_mark: Friend
+  - :white_check_mark: Add friend
+  - :white_check_mark: Delete friend
+  - :white_check_mark: Friend list
+- :white_check_mark: Group
+  - :white_check_mark: Create group
+  - :white_check_mark: Delete group
+  - :white_check_mark: Group list
+  - :white_check_mark: Manage members
+- :white_check_mark: Formula
+  - :white_check_mark:Write `$` or `$$` to wrap latex formula
+  - :white_check_mark: Edit your own stored formula just like emoji
 
 ### Tech Stack
 
