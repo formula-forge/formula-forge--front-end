@@ -65,6 +65,7 @@ https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad3
 ├── package.json
 ├── formula.mp4 # A video showing how to use the formula feature
 ├── public # The default directory for React, containing icons.
+├── build # The result of `npm run build`
 └── src
     ├── App.css # The css file for App.js
     ├── App.js # The main component of the project
@@ -96,3 +97,19 @@ https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad3
         ├── http-img.js # The axios instance for uploading images
         └── ... # The services for different APIs
 ```
+
+### How the formula rendering works
+
+We use [MathJax](https://www.mathjax.org/) scripts to render the formulas.
+
+In each chat session, we create a boolean React State `scriptTrigger` as a trigger
+for rerendering. By using `useEffect()`, we can rerender the formula when the State
+changes. The formulas are rendered at the first time the chat session is opened. The
+State's set function is delivered to `Typebox.js`. When the user sends a message,
+`Typebox.js` sets the State to the opposite value, which triggers the rerendering.
+
+Because React rerenders the page when a parent component's State is changed, the
+formulas change into their original texts when the user switch the navigation bar. We
+can solve this problem easily, but this leads to high render cost. Thus we simply
+regard this as a feature. Also, this allows the user to inspect and copy the original
+texts of the formulas.
