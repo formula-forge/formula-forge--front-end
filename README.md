@@ -56,6 +56,22 @@ Chinese):
 
 https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad316d-7d00-496e-adc4-2c42c7f08e99
 
+### How does the formulas be rendered
+
+We use [MathJax](https://www.mathjax.org/) scripts to render the formulas.
+
+In each chat session, we create a boolean React State `scriptTrigger` as a trigger
+for rerendering. By using `useEffect()`, we can rerender the formulas when the State
+changes. The formulas are rendered at the first time the chat session is opened. The
+State's set function is delivered to `Typebox.js`. When the user sends a message,
+`Typebox.js` sets the State to the opposite value, which triggers the rerendering.
+
+Because React rerenders the page when a parent component's State is changed, the
+formulas change into their original texts when the user switch the navigation bar. We
+can solve this problem easily, but this leads to high render cost. Thus we simply
+regard this as a feature. Also, this allows the user to inspect and copy the original
+texts of the formulas.
+
 ### Project Structure
 
 ```bash
@@ -97,19 +113,3 @@ https://github.com/formula-forge/formula-forge--front-end/assets/127286614/5dad3
         ├── http-img.js # The axios instance for uploading images
         └── ... # The services for different APIs
 ```
-
-### How the formula rendering works
-
-We use [MathJax](https://www.mathjax.org/) scripts to render the formulas.
-
-In each chat session, we create a boolean React State `scriptTrigger` as a trigger
-for rerendering. By using `useEffect()`, we can rerender the formula when the State
-changes. The formulas are rendered at the first time the chat session is opened. The
-State's set function is delivered to `Typebox.js`. When the user sends a message,
-`Typebox.js` sets the State to the opposite value, which triggers the rerendering.
-
-Because React rerenders the page when a parent component's State is changed, the
-formulas change into their original texts when the user switch the navigation bar. We
-can solve this problem easily, but this leads to high render cost. Thus we simply
-regard this as a feature. Also, this allows the user to inspect and copy the original
-texts of the formulas.
